@@ -1,7 +1,7 @@
+import compression from 'compression';
 import express from 'express';
 import { config } from './config';
 import questionRoutes from './routes/questionRoutes';
-const compression = require('compression');
 
 const app = express();
 

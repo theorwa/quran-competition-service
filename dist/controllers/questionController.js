@@ -5,7 +5,6 @@ const questionService_1 = require("../services/questionService");
 const questionService = new questionService_1.QuestionService();
 const getQuestions = (req, res) => {
     const questions = questionService.getQuestions();
-    res.json(questions);
 };
 exports.getQuestions = getQuestions;
 const generateQuestion = (req, res) => {

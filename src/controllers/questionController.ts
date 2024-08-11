@@ -5,7 +5,6 @@ const questionService = new QuestionService();
 
 export const getQuestions = (req: Request, res: Response) => {
     const questions = questionService.getQuestions();
-    res.json(questions);
 };
 
 export const generateQuestion = (req: Request, res: Response) => {
