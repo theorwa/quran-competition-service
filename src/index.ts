@@ -1,9 +1,11 @@
 import express from 'express';
 import { config } from './config';
 import questionRoutes from './routes/questionRoutes';
+const compression = require('compression');
 
 const app = express();
 
+app.use(compression());
 app.use(express.json());
 app.use('/api', questionRoutes);
 
