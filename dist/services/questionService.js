@@ -26,7 +26,6 @@ class QuestionService {
         return this.questions;
     }
     generateQuestion() {
-        // Logic to generate a question from the CSV data
         const randomIndex = Math.floor(Math.random() * this.questions.length);
         return this.questions[randomIndex];
     }
