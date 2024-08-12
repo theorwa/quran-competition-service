@@ -10,9 +10,8 @@ export class QuestionGeneratorFactory {
                 return new NextAyahGenerator();
             case QuestionType.PreviousAyah:
                 return new PreviousAyahGenerator();
-            // Add more cases for additional question types
             default:
-                throw new Error(`Invalid question type: ${type}`);
+                return new NextAyahGenerator();
         }
     }
 }
