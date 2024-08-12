@@ -4,7 +4,7 @@ import { Question } from '../../models/Question';
 export class PreviousAyahGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هي الآية السابقة؟';
 
-    generate(startPage: number, endPage: number): Question {
+    protected generateQuestion(startPage: number, endPage: number): Question {
         let ayahs = this.expandPageRange(startPage, endPage, 6);
 
         const randomIndex = Math.floor(Math.random() * Math.max(ayahs.length - 1, 1)) + 5;
@@ -14,6 +14,10 @@ export class PreviousAyahGenerator extends BaseQuestionGenerator {
         if (previousAyahs.length < 5) {
             const additionalAyahs = this.getRandomOptions(ayahs, previousAyahs, 5 - previousAyahs.length);
             previousAyahs = additionalAyahs.concat(previousAyahs);
+        }
+
+        if (!ayah || !previousAyahs[previousAyahs.length - 1]) {
+            throw new Error('Failed to generate a valid question.');
         }
 
         // The last ayah in previousAyahs should be the correct one

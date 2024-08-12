@@ -3,6 +3,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseQuestionGenerator = void 0;
 const QuestionGenerator_1 = require("./QuestionGenerator");
 class BaseQuestionGenerator extends QuestionGenerator_1.QuestionGenerator {
+    generate(startPage, endPage) {
+        let attempts = 0;
+        let question = null;
+        while (attempts < BaseQuestionGenerator.MAX_RETRIES && !question) {
+            try {
+                question = this.generateQuestion(startPage, endPage);
+            }
+            catch (error) {
+                attempts++;
+                if (attempts >= BaseQuestionGenerator.MAX_RETRIES) {
+                    throw new Error('Failed to generate a question after multiple attempts.');
+                }
+            }
+        }
+        return question;
+    }
     shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -32,3 +48,4 @@ class BaseQuestionGenerator extends QuestionGenerator_1.QuestionGenerator {
     }
 }
 exports.BaseQuestionGenerator = BaseQuestionGenerator;
+BaseQuestionGenerator.MAX_RETRIES = 3;

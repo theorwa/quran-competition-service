@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PreviousAyahGenerator = void 0;
 const BaseQuestionGenerator_1 = require("../BaseQuestionGenerator");
 class PreviousAyahGenerator extends BaseQuestionGenerator_1.BaseQuestionGenerator {
-    generate(startPage, endPage) {
+    generateQuestion(startPage, endPage) {
         let ayahs = this.expandPageRange(startPage, endPage, 6);
         const randomIndex = Math.floor(Math.random() * Math.max(ayahs.length - 1, 1)) + 5;
         const ayah = ayahs[randomIndex];
@@ -11,6 +11,9 @@ class PreviousAyahGenerator extends BaseQuestionGenerator_1.BaseQuestionGenerato
         if (previousAyahs.length < 5) {
             const additionalAyahs = this.getRandomOptions(ayahs, previousAyahs, 5 - previousAyahs.length);
             previousAyahs = additionalAyahs.concat(previousAyahs);
+        }
+        if (!ayah || !previousAyahs[previousAyahs.length - 1]) {
+            throw new Error('Failed to generate a valid question.');
         }
         const correctAyah = previousAyahs[previousAyahs.length - 1];
         const shuffledOptions = this.shuffleArray(previousAyahs);

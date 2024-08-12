@@ -1,7 +1,30 @@
 import { QuestionGenerator } from './QuestionGenerator';
 import { Ayah } from '../utils/CSVDataLoader';
+import { Question } from '../models/Question';
 
 export abstract class BaseQuestionGenerator extends QuestionGenerator {
+
+    private static readonly MAX_RETRIES = 3;
+
+    protected abstract generateQuestion(startPage: number, endPage: number): Question;
+
+    public generate(startPage: number, endPage: number): Question {
+        let attempts = 0;
+        let question: Question | null = null;
+
+        while (attempts < BaseQuestionGenerator.MAX_RETRIES && !question) {
+            try {
+                question = this.generateQuestion(startPage, endPage);
+            } catch (error) {
+                attempts++;
+                if (attempts >= BaseQuestionGenerator.MAX_RETRIES) {
+                    throw new Error('Failed to generate a question after multiple attempts.');
+                }
+            }
+        }
+
+        return question!;
+    }
 
     protected shuffleArray(array: any[]): any[] {
         for (let i = array.length - 1; i > 0; i--) {

@@ -12,7 +12,7 @@ class QuestionGeneratorFactory {
             case QuestionType_1.QuestionType.PreviousAyah:
                 return new PreviousAyahGenerator_1.PreviousAyahGenerator();
             default:
-                throw new Error(`Invalid question type: ${type}`);
+                return new NextAyahGenerator_1.NextAyahGenerator();
         }
     }
 }
