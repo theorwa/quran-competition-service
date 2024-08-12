@@ -3,7 +3,7 @@ import { Question } from '../../models/Question';
 import { Ayah } from '../../utils/CSVDataLoader';
 
 export class NextAyahGenerator extends QuestionGenerator {
-    public static readonly QUESTION_TEXT = 'What is the next ayah?';
+    public static readonly QUESTION_TEXT = 'ما هي الآية التالية؟';
 
     generate(startPage: number, endPage: number): Question {
         let ayahs = this.dataLoader.getDataByPageRange(startPage, endPage);

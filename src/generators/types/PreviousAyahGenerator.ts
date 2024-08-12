@@ -4,7 +4,7 @@ import { Ayah } from '../../utils/CSVDataLoader';
 
 export class PreviousAyahGenerator extends QuestionGenerator {
     // Static constant for question text
-    public static readonly QUESTION_TEXT = 'What is the previous ayah?';
+    public static readonly QUESTION_TEXT = 'ما هي الآية السابقة؟';
 
     generate(startPage: number, endPage: number): Question {
         const ayahs = this.dataLoader.getDataByPageRange(startPage, endPage);
