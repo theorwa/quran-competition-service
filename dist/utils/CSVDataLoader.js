@@ -48,7 +48,7 @@ class CSVDataLoader {
         if (!this.dataLoaded) {
             throw new Error('CSV data is not loaded yet.');
         }
-        return this.data.filter((ayah) => ayah.pageNumber >= startPage && ayah.pageNumber <= endPage);
+        return this.data.filter((ayah) => ayah.pageNumber >= startPage && ayah.pageNumber <= endPage && ayah.surahAyahNumber >= 1);
     }
 }
 exports.CSVDataLoader = CSVDataLoader;

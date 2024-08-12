@@ -1,54 +1,32 @@
-import { QuestionGenerator } from '../QuestionGenerator';
+import { BaseQuestionGenerator } from '../BaseQuestionGenerator';
 import { Question } from '../../models/Question';
-import { Ayah } from '../../utils/CSVDataLoader';
 
-export class NextAyahGenerator extends QuestionGenerator {
+export class NextAyahGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هي الآية التالية؟';
 
     generate(startPage: number, endPage: number): Question {
-        let ayahs = this.dataLoader.getDataByPageRange(startPage, endPage);
+        let ayahs = this.expandPageRange(startPage, endPage, 6);
 
-        // If not enough ayahs, gradually expand the range
-        while (ayahs.length < 2 && (startPage > 1 || endPage < 604)) {
-            if (startPage > 1) startPage--;
-            if (endPage < 604) endPage++;
-            ayahs = this.dataLoader.getDataByPageRange(startPage, endPage);
-        }
-
-        if (ayahs.length < 2) {
-            throw new Error('Not enough ayahs in the selected page range to generate a question.');
-        }
-
-        const randomIndex = Math.floor(Math.random() * (ayahs.length - 1));
+        const randomIndex = Math.floor(Math.random() * Math.max(ayahs.length - 1, 1));
         const ayah = ayahs[randomIndex];
-        const nextAyah = ayahs[randomIndex + 1];
+        let nextAyahs = ayahs.slice(randomIndex + 1, randomIndex + 6);
 
-        if (!ayah || !nextAyah) {
-            throw new Error('Unable to find sufficient ayahs for generating a question.');
+        if (nextAyahs.length < 5) {
+            const additionalAyahs = this.getRandomOptions(ayahs, nextAyahs, 5 - nextAyahs.length);
+            nextAyahs = nextAyahs.concat(additionalAyahs);
         }
 
-        const options = [nextAyah, ...this.getRandomOptions(ayahs, nextAyah)];
-        const shuffledOptions = this.shuffleArray(options);
+        // The first ayah in nextAyahs should be the correct one
+        const correctAyah = nextAyahs[0];
+
+        const shuffledOptions = this.shuffleArray(nextAyahs);
 
         return {
             question: NextAyahGenerator.QUESTION_TEXT,
             ayah: ayah.ayahText,
             options: shuffledOptions.map((option) => option.ayahText),
-            correct: shuffledOptions.indexOf(nextAyah),
+            correct: shuffledOptions.findIndex(option => option === correctAyah),
         };
-    }
-
-    private getRandomOptions(ayahs: Ayah[], correctAyah: Ayah): Ayah[] {
-        const randomAyahs = ayahs.filter((a) => a !== correctAyah);
-        return randomAyahs.slice(0, 3); // Select 3 random ayahs
-    }
-
-    private shuffleArray(array: any[]): any[] {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
     }
 
     public get questionText(): string {

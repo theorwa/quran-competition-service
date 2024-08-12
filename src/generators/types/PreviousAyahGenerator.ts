@@ -1,39 +1,32 @@
-import { QuestionGenerator } from '../QuestionGenerator';
+import { BaseQuestionGenerator } from '../BaseQuestionGenerator';
 import { Question } from '../../models/Question';
-import { Ayah } from '../../utils/CSVDataLoader';
 
-export class PreviousAyahGenerator extends QuestionGenerator {
-    // Static constant for question text
+export class PreviousAyahGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هي الآية السابقة؟';
 
     generate(startPage: number, endPage: number): Question {
-        const ayahs = this.dataLoader.getDataByPageRange(startPage, endPage);
-        const randomIndex = Math.floor(Math.random() * (ayahs.length - 1));
-        const ayah = ayahs[randomIndex];
-        const previousAyah = ayahs[randomIndex - 1];
+        let ayahs = this.expandPageRange(startPage, endPage, 6);
 
-        const options = [previousAyah, ...this.getRandomOptions(ayahs, previousAyah)];
-        const shuffledOptions = this.shuffleArray(options);
+        const randomIndex = Math.floor(Math.random() * Math.max(ayahs.length - 1, 1)) + 5;
+        const ayah = ayahs[randomIndex];
+        let previousAyahs = ayahs.slice(Math.max(randomIndex - 5, 0), randomIndex);
+
+        if (previousAyahs.length < 5) {
+            const additionalAyahs = this.getRandomOptions(ayahs, previousAyahs, 5 - previousAyahs.length);
+            previousAyahs = additionalAyahs.concat(previousAyahs);
+        }
+
+        // The last ayah in previousAyahs should be the correct one
+        const correctAyah = previousAyahs[previousAyahs.length - 1];
+
+        const shuffledOptions = this.shuffleArray(previousAyahs);
 
         return {
             question: PreviousAyahGenerator.QUESTION_TEXT,
             ayah: ayah.ayahText,
             options: shuffledOptions.map((option) => option.ayahText),
-            correct: shuffledOptions.indexOf(previousAyah),
+            correct: shuffledOptions.findIndex(option => option === correctAyah),
         };
-    }
-
-    private getRandomOptions(ayahs: Ayah[], correctAyah: Ayah): Ayah[] {
-        const randomAyahs = ayahs.filter((a) => a !== correctAyah);
-        return randomAyahs.slice(0, 3); // Select 3 random ayahs
-    }
-
-    private shuffleArray(array: any[]): any[] {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
     }
 
     public get questionText(): string {
