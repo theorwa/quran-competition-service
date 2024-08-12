@@ -4,10 +4,12 @@ import { QuestionType } from '../models/QuestionType';
 
 export class QuestionController {
     public static generateQuestion(req: Request, res: Response): void {
-        // Provide default values for query parameters
         const questionType: string = (req.query.question_type as string) || QuestionType.NextAyah;
         const startPage: number = Number(req.query.start_page) || 1;
         const endPage: number = Number(req.query.end_page) || 604;
+        if (startPage > endPage) {
+            [startPage, endPage] = [endPage, startPage];
+        }
 
         try {
             const generator = QuestionGeneratorFactory.createGenerator(questionType);
