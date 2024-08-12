@@ -46,4 +46,4 @@ class NextAyahGenerator extends QuestionGenerator_1.QuestionGenerator {
     }
 }
 exports.NextAyahGenerator = NextAyahGenerator;
-NextAyahGenerator.QUESTION_TEXT = 'What is the next ayah?';
+NextAyahGenerator.QUESTION_TEXT = 'ما هي الآية التالية؟';

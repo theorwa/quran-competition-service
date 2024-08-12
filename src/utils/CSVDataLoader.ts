@@ -59,7 +59,7 @@ export class CSVDataLoader {
             throw new Error('CSV data is not loaded yet.');
         }
         return this.data.filter(
-            (ayah) => ayah.pageNumber >= startPage && ayah.pageNumber <= endPage
+            (ayah) => ayah.pageNumber >= startPage && ayah.pageNumber <= endPage && ayah.surahAyahNumber >= 1
         );
     }
 }

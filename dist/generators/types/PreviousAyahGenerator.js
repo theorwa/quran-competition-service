@@ -33,4 +33,4 @@ class PreviousAyahGenerator extends QuestionGenerator_1.QuestionGenerator {
     }
 }
 exports.PreviousAyahGenerator = PreviousAyahGenerator;
-PreviousAyahGenerator.QUESTION_TEXT = 'What is the previous ayah?';
+PreviousAyahGenerator.QUESTION_TEXT = 'ما هي الآية السابقة؟';
