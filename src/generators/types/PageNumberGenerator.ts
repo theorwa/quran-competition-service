@@ -18,13 +18,24 @@ export class PageNumberGenerator extends BaseQuestionGenerator {
         // The correct page number is the page number of the selected ayah
         const correctPageNumber = ayah.pageNumber;
 
-        // Generate four other random page numbers as distractors
+        // Calculate the range size
+        const rangeSize = endPage - startPage + 1;
+
+        // If the range is less than 5, we'll need to consider pages outside the range
         const pageNumbers = new Set<number>();
         pageNumbers.add(correctPageNumber);
 
-        while (pageNumbers.size < 5) {
-            const randomPage = Math.floor(Math.random() * 604) + 1; // Quran has 604 pages
-            pageNumbers.add(randomPage);
+        // First, add all possible pages within the range
+        for (let i = startPage; i <= endPage && pageNumbers.size < 5; i++) {
+            pageNumbers.add(i);
+        }
+
+        // If still less than 5, add nearby pages outside the range
+        let offset = 1;
+        while (pageNumbers.size < 5 && (startPage - offset >= 1 || endPage + offset <= 604)) {
+            if (startPage - offset >= 1) pageNumbers.add(startPage - offset);
+            if (endPage + offset <= 604) pageNumbers.add(endPage + offset);
+            offset++;
         }
 
         const options = Array.from(pageNumbers);
