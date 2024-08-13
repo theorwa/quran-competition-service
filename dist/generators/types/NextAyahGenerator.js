@@ -20,7 +20,8 @@ class NextAyahGenerator extends BaseQuestionGenerator_1.BaseQuestionGenerator {
         return {
             question: NextAyahGenerator.QUESTION_TEXT,
             ayah: ayah.ayahText,
-            options: shuffledOptions.map((option) => option.ayahText),
+            ayahNumber: `${ayah.surahName}:${ayah.surahAyahNumber}`,
+            options: shuffledOptions.map((option) => this.formatAyahText(option.ayahText)),
             correct: shuffledOptions.findIndex(option => option === correctAyah),
         };
     }

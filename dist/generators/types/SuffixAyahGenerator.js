@@ -28,6 +28,7 @@ class SuffixAyahGenerator extends BaseQuestionGenerator_1.BaseQuestionGenerator 
         return {
             question: SuffixAyahGenerator.QUESTION_TEXT,
             ayah: firstPart,
+            ayahNumber: `${ayah.surahName}:${ayah.surahAyahNumber}`,
             options: options,
             correct: options.findIndex(option => option === correctSuffix),
         };

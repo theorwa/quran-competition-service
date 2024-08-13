@@ -46,6 +46,10 @@ class BaseQuestionGenerator extends QuestionGenerator_1.QuestionGenerator {
         }
         return ayahs;
     }
+    formatAyahText(ayahText) {
+        const words = ayahText.split(' ');
+        return words.length > 5 ? words.slice(0, 5).join(' ') + ' ...' : ayahText;
+    }
 }
 exports.BaseQuestionGenerator = BaseQuestionGenerator;
 BaseQuestionGenerator.MAX_RETRIES = 3;
