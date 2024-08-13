@@ -6,8 +6,11 @@ const QuestionType_1 = require("../models/QuestionType");
 class QuestionController {
     static generateQuestion(req, res) {
         const questionType = req.query.question_type || QuestionType_1.QuestionType.NextAyah;
-        const startPage = Number(req.query.start_page) || 1;
-        const endPage = Number(req.query.end_page) || 604;
+        let startPage = Number(req.query.start_page) || 1;
+        let endPage = Number(req.query.end_page) || 604;
+        if (startPage > endPage) {
+            [startPage, endPage] = [endPage, startPage];
+        }
         try {
             const generator = QuestionGeneratorFactory_1.QuestionGeneratorFactory.createGenerator(questionType);
             const question = generator.generate(startPage, endPage);
