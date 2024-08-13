@@ -7,7 +7,7 @@ const PreviousAyahGenerator_1 = require("./types/PreviousAyahGenerator");
 const SuffixAyahGenerator_1 = require("./types/SuffixAyahGenerator");
 const PageNumberGenerator_1 = require("./types/PageNumberGenerator");
 const AyatPageCountGenerator_1 = require("./types/AyatPageCountGenerator");
-const PageStartAyahGenerator_1 = require("./types/PageStartAyahGenerator");
+const FirstAyahOfPageGenerator_1 = require("./types/FirstAyahOfPageGenerator");
 class QuestionGeneratorFactory {
     static createGenerator(type) {
         switch (type) {
@@ -21,8 +21,8 @@ class QuestionGeneratorFactory {
                 return new PageNumberGenerator_1.PageNumberGenerator();
             case QuestionType_1.QuestionType.AyatPageCount:
                 return new AyatPageCountGenerator_1.AyatPageCountGenerator();
-            case QuestionType_1.QuestionType.PageStartAyah:
-                return new PageStartAyahGenerator_1.PageStartAyahGenerator();
+            case QuestionType_1.QuestionType.FirstAyahOfPage:
+                return new FirstAyahOfPageGenerator_1.FirstAyahOfPageGenerator();
             default:
                 return new NextAyahGenerator_1.NextAyahGenerator();
         }

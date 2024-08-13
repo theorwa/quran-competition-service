@@ -4,15 +4,17 @@ exports.PageStartAyahGenerator = void 0;
 const BaseQuestionGenerator_1 = require("../BaseQuestionGenerator");
 class PageStartAyahGenerator extends BaseQuestionGenerator_1.BaseQuestionGenerator {
     generateQuestion(startPage, endPage) {
-        let ayahs = this.expandPageRange(startPage, endPage, 6);
-        const eligibleAyahs = ayahs.filter(a => a.surahAyahNumber !== 1);
-        const randomIndex = Math.floor(Math.random() * eligibleAyahs.length);
-        const ayah = eligibleAyahs[randomIndex];
+        let ayahs = this.expandPageRange(startPage, endPage, 6).filter(a => a.surahAyahNumber !== 1);
+        if (ayahs.length === 0) {
+            throw new Error('No eligible ayahs found in the specified range.');
+        }
+        const randomIndex = Math.floor(Math.random() * ayahs.length);
+        const ayah = ayahs[randomIndex];
         if (!ayah) {
             throw new Error('Failed to generate a valid question.');
         }
         const correctPage = ayah.pageNumber;
-        const correctAyah = ayahs.find(a => a.pageNumber === correctPage && a.surahAyahNumber === 1);
+        const correctAyah = this.dataLoader.getDataByPageNumber(correctPage).find(a => a.surahAyahNumber === 1);
         if (!correctAyah) {
             throw new Error('Failed to find the first ayah on the correct page.');
         }
@@ -23,8 +25,8 @@ class PageStartAyahGenerator extends BaseQuestionGenerator_1.BaseQuestionGenerat
             pageNumbers.add(randomPage);
         }
         const options = Array.from(pageNumbers).map(pageNumber => {
-            const pageStartAyah = ayahs.find(a => a.pageNumber === pageNumber && a.surahAyahNumber === 1);
-            return this.formatAyahText(pageStartAyah ? pageStartAyah.ayahText : '');
+            const pageStartAyah = this.dataLoader.getDataByPageNumber(pageNumber).find(a => a.surahAyahNumber === 1);
+            return this.formatAyahText(pageStartAyah ? pageStartAyah.ayahText : 'لا توجد آية');
         });
         const shuffledOptions = this.shuffleArray(options);
         const correctIndex = shuffledOptions.indexOf(this.formatAyahText(correctAyah.ayahText));

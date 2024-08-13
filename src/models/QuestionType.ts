@@ -4,5 +4,4 @@ export enum QuestionType {
     SuffixAyah = 'suffix_ayah',
     PageNumber = 'page_number',
     AyatPageCount = 'ayat_page_count',
-    PageStartAyah = 'page_start_ayah',
 }

@@ -5,7 +5,7 @@ import { PreviousAyahGenerator } from './types/PreviousAyahGenerator';
 import {SuffixAyahGenerator} from "./types/SuffixAyahGenerator";
 import {PageNumberGenerator} from "./types/PageNumberGenerator";
 import {AyatPageCountGenerator} from "./types/AyatPageCountGenerator";
-import {PageStartAyahGenerator} from "./types/PageStartAyahGenerator";
+import {FirstAyahInPageGenerator} from "./types/FirstAyahInPageGenerator";
 
 export class QuestionGeneratorFactory {
     public static createGenerator(type: string): IQuestionGenerator {
@@ -20,8 +20,6 @@ export class QuestionGeneratorFactory {
                 return new PageNumberGenerator();
             case QuestionType.AyatPageCount:
                 return new AyatPageCountGenerator();
-            case QuestionType.PageStartAyah:
-                return new PageStartAyahGenerator();
             default:
                 return new NextAyahGenerator();
         }

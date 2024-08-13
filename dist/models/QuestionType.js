@@ -8,5 +8,5 @@ var QuestionType;
     QuestionType["SuffixAyah"] = "suffix_ayah";
     QuestionType["PageNumber"] = "page_number";
     QuestionType["AyatPageCount"] = "ayat_page_count";
-    QuestionType["PageStartAyah"] = "page_start_ayah";
+    QuestionType["FirstAyahOfPage"] = "first_ayah_of_page";
 })(QuestionType || (exports.QuestionType = QuestionType = {}));
