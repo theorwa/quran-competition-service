@@ -57,4 +57,9 @@ export abstract class BaseQuestionGenerator extends QuestionGenerator {
 
         return ayahs;
     }
+
+    protected formatAyahText(ayahText: string): string {
+        const words = ayahText.split(' ');
+        return words.length > 5 ? words.slice(0, 5).join(' ') + ' ...' : ayahText;
+    }
 }

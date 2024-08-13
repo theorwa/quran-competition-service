@@ -29,7 +29,7 @@ export class PreviousAyahGenerator extends BaseQuestionGenerator {
             question: PreviousAyahGenerator.QUESTION_TEXT,
             ayah: ayah.ayahText,
             ayahNumber: `${ayah.surahName}:${ayah.surahAyahNumber}`,
-            options: shuffledOptions.map((option) => option.ayahText),
+            options: shuffledOptions.map((option) => this.formatAyahText(option.ayahText)),
             correct: shuffledOptions.findIndex(option => option === correctAyah),
         };
     }
