@@ -9,14 +9,7 @@ export class NextAyahGenerator extends BaseQuestionGenerator {
 
         const randomIndex = Math.floor(Math.random() * Math.max(ayahs.length - 1, 1));
         const ayah = ayahs[randomIndex];
-        let nextAyahs = [];
-
-        for (let i = randomIndex + 1; i < ayahs.length && nextAyahs.length < 5; i++) {
-            const candidateAyah = ayahs[i];
-            if (nextAyahs.length === 0 || !this.isFirst5WordsSame(candidateAyah.ayahText, ayah.ayahText)) {
-                nextAyahs.push(candidateAyah);
-            }
-        }
+        let nextAyahs = ayahs.slice(randomIndex + 1, randomIndex + 6);
 
         if (nextAyahs.length < 5) {
             const additionalAyahs = this.getRandomOptions(ayahs, nextAyahs, 5 - nextAyahs.length);
@@ -27,7 +20,12 @@ export class NextAyahGenerator extends BaseQuestionGenerator {
             throw new Error('Failed to generate a valid question.');
         }
 
+        // Filter out any next ayahs that have the same first 5 words as the correct next ayah
+        nextAyahs = this.filterSimilarAyahs(nextAyahs[0], nextAyahs);
+
+        // The first ayah in nextAyahs should be the correct one
         const correctAyah = nextAyahs[0];
+
         const shuffledOptions = this.shuffleArray(nextAyahs);
 
         return {
@@ -37,12 +35,6 @@ export class NextAyahGenerator extends BaseQuestionGenerator {
             options: shuffledOptions.map((option) => this.formatAyahText(option.ayahText)),
             correct: shuffledOptions.findIndex(option => option === correctAyah),
         };
-    }
-
-    private isFirst5WordsSame(ayahText1: string, ayahText2: string): boolean {
-        const words1 = ayahText1.split(' ').slice(0, 5).join(' ');
-        const words2 = ayahText2.split(' ').slice(0, 5).join(' ');
-        return words1 === words2;
     }
 
     public get questionText(): string {
