@@ -5,46 +5,34 @@ const BaseQuestionGenerator_1 = require("../BaseQuestionGenerator");
 class FirstAyahInPageGenerator extends BaseQuestionGenerator_1.BaseQuestionGenerator {
     generateQuestion(startPage, endPage) {
         let ayahs = this.expandPageRange(startPage, endPage, 6);
-        const filteredAyahs = ayahs.filter(ayah => ayah.surahAyahNumber !== 1);
+        const filteredAyahs = ayahs.filter(a => a.surahAyahNumber !== 1);
         if (filteredAyahs.length === 0) {
-            throw new Error('No valid ayah found in the specified page range.');
+            throw new Error('No valid ayahs found within the specified range.');
         }
         const randomIndex = Math.floor(Math.random() * filteredAyahs.length);
         const ayah = filteredAyahs[randomIndex];
         if (!ayah) {
             throw new Error('Failed to generate a valid question.');
         }
-        const firstAyahOnPage = ayahs.find(a => a.pageNumber === ayah.pageNumber && a.surahAyahNumber === 1);
-        if (!firstAyahOnPage) {
-            throw new Error('Failed to find the first ayah on the page.');
+        const correctFirstAyah = ayahs.find(a => a.pageNumber === ayah.pageNumber && a.surahAyahNumber === 1);
+        if (!correctFirstAyah) {
+            throw new Error('Failed to find the first ayah of the correct page.');
         }
         const firstAyahs = new Set();
-        firstAyahs.add(this.formatAyahText(firstAyahOnPage.ayahText));
-        for (let i = startPage; i <= endPage && firstAyahs.size < 5; i++) {
-            const firstAyahInPage = ayahs.find(a => a.pageNumber === i && a.surahAyahNumber === 1);
-            if (firstAyahInPage) {
-                firstAyahs.add(this.formatAyahText(firstAyahInPage.ayahText));
+        firstAyahs.add(this.formatAyahText(correctFirstAyah.ayahText));
+        while (firstAyahs.size < 5) {
+            const randomPage = Math.floor(Math.random() * (endPage - startPage + 1)) + startPage;
+            const firstAyahOfPage = ayahs.find(a => a.pageNumber === randomPage && a.surahAyahNumber === 1);
+            if (firstAyahOfPage) {
+                firstAyahs.add(this.formatAyahText(firstAyahOfPage.ayahText));
             }
-        }
-        let offset = 1;
-        while (firstAyahs.size < 5 && (startPage - offset >= 1 || endPage + offset <= 604)) {
-            if (startPage - offset >= 1) {
-                const firstAyahInPreviousPage = ayahs.find(a => a.pageNumber === startPage - offset && a.surahAyahNumber === 1);
-                if (firstAyahInPreviousPage) {
-                    firstAyahs.add(this.formatAyahText(firstAyahInPreviousPage.ayahText));
-                }
+            if (firstAyahs.size < 5 && firstAyahs.size === ayahs.filter(a => a.surahAyahNumber === 1).length) {
+                break;
             }
-            if (endPage + offset <= 604) {
-                const firstAyahInNextPage = ayahs.find(a => a.pageNumber === endPage + offset && a.surahAyahNumber === 1);
-                if (firstAyahInNextPage) {
-                    firstAyahs.add(this.formatAyahText(firstAyahInNextPage.ayahText));
-                }
-            }
-            offset++;
         }
         const options = Array.from(firstAyahs);
         const shuffledOptions = this.shuffleArray(options);
-        const correctIndex = shuffledOptions.indexOf(this.formatAyahText(firstAyahOnPage.ayahText));
+        const correctIndex = shuffledOptions.indexOf(this.formatAyahText(correctFirstAyah.ayahText));
         return {
             question: FirstAyahInPageGenerator.QUESTION_TEXT,
             ayah: ayah.ayahText,
