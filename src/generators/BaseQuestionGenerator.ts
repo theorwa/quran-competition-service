@@ -62,13 +62,4 @@ export abstract class BaseQuestionGenerator extends QuestionGenerator {
         const words = ayahText.split(' ');
         return words.length > 5 ? words.slice(0, 5).join(' ') + ' ...' : ayahText;
     }
-
-    protected filterSimilarAyahs(correctAyah: Ayah, ayahs: Ayah[]): Ayah[] {
-        const correctFirstWords = this.formatAyahText(correctAyah.ayahText);
-
-        return ayahs.filter(ayah => {
-            const ayahFirstWords = this.formatAyahText(ayah.ayahText);
-            return ayahFirstWords !== correctFirstWords;
-        });
-    }
 }

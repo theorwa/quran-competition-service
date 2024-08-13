@@ -13,15 +13,12 @@ export class PreviousAyahGenerator extends BaseQuestionGenerator {
 
         if (previousAyahs.length < 5) {
             const additionalAyahs = this.getRandomOptions(ayahs, previousAyahs, 5 - previousAyahs.length);
-            previousAyahs = previousAyahs.concat(additionalAyahs);
+            previousAyahs = additionalAyahs.concat(previousAyahs);
         }
 
         if (!ayah || !previousAyahs[previousAyahs.length - 1]) {
             throw new Error('Failed to generate a valid question.');
         }
-
-        // Filter out any previous ayahs that have the same first 5 words as the correct previous ayah
-        previousAyahs = this.filterSimilarAyahs(previousAyahs[previousAyahs.length - 1], previousAyahs);
 
         // The last ayah in previousAyahs should be the correct one
         const correctAyah = previousAyahs[previousAyahs.length - 1];

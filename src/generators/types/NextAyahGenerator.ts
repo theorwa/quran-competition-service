@@ -20,9 +20,6 @@ export class NextAyahGenerator extends BaseQuestionGenerator {
             throw new Error('Failed to generate a valid question.');
         }
 
-        // Filter out any next ayahs that have the same first 5 words as the correct next ayah
-        nextAyahs = this.filterSimilarAyahs(nextAyahs[0], nextAyahs);
-
         // The first ayah in nextAyahs should be the correct one
         const correctAyah = nextAyahs[0];
 
