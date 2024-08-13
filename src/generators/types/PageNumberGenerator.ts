@@ -18,24 +18,19 @@ export class PageNumberGenerator extends BaseQuestionGenerator {
         // The correct page number is the page number of the selected ayah
         const correctPageNumber = ayah.pageNumber;
 
-        // Calculate the range size
-        const rangeSize = endPage - startPage + 1;
-
-        // If the range is less than 5, we'll need to consider pages outside the range
+        // Create a set to store the page number options
         const pageNumbers = new Set<number>();
         pageNumbers.add(correctPageNumber);
 
-        // First, add all possible pages within the range
-        for (let i = startPage; i <= endPage && pageNumbers.size < 5; i++) {
-            pageNumbers.add(i);
-        }
+        // Generate four other nearby page numbers as distractors
+        while (pageNumbers.size < 5) {
+            const randomOffset = Math.floor(Math.random() * 10) - 5; // Range: -5 to +4
+            const nearbyPage = correctPageNumber + randomOffset;
 
-        // If still less than 5, add nearby pages outside the range
-        let offset = 1;
-        while (pageNumbers.size < 5 && (startPage - offset >= 1 || endPage + offset <= 604)) {
-            if (startPage - offset >= 1) pageNumbers.add(startPage - offset);
-            if (endPage + offset <= 604) pageNumbers.add(endPage + offset);
-            offset++;
+            // Ensure the nearby page is within valid bounds and not already in the set
+            if (nearbyPage > 0 && nearbyPage <= 604 && !pageNumbers.has(nearbyPage)) {
+                pageNumbers.add(nearbyPage);
+            }
         }
 
         const options = Array.from(pageNumbers);
