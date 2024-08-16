@@ -1,21 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PreviousAyahGenerator = void 0;
+exports.SuffixPreviousAyahGenerator = void 0;
 const BaseQuestionGenerator_1 = require("../BaseQuestionGenerator");
-class PreviousAyahGenerator extends BaseQuestionGenerator_1.BaseQuestionGenerator {
+class SuffixPreviousAyahGenerator extends BaseQuestionGenerator_1.BaseQuestionGenerator {
     generateQuestion(startPage, endPage) {
         let ayahs = this.expandPageRange(startPage, endPage, 6);
         const randomIndex = Math.floor(Math.random() * Math.max(ayahs.length - 1, 1)) + 5;
         const previousAyahIndex = this.getPreviousAyah(ayahs, randomIndex);
-        const previousPrefixes = this.getPreviousUniqueAyaPrefixes(ayahs, previousAyahIndex, 4);
-        if (!previousPrefixes || previousPrefixes.length < 4) {
+        const previousSuffixes = this.getPreviousUniqueAyaSuffixes(ayahs, previousAyahIndex, 4);
+        if (!previousSuffixes || previousSuffixes.length < 4) {
             throw new Error('Failed to generate a valid question.');
         }
-        const correctOption = ayahs[previousAyahIndex].prefix;
-        previousPrefixes.push(ayahs[previousAyahIndex].prefix);
-        const shuffledOptions = this.shuffleArray(previousPrefixes);
+        const correctOption = ayahs[previousAyahIndex].suffix;
+        previousSuffixes.push(ayahs[previousAyahIndex].suffix);
+        const shuffledOptions = this.shuffleArray(previousSuffixes);
         return {
-            question: PreviousAyahGenerator.QUESTION_TEXT,
+            question: SuffixPreviousAyahGenerator.QUESTION_TEXT,
             ayah: ayahs[randomIndex].ayahText,
             ayahNumber: `${ayahs[randomIndex].surahName}:${ayahs[randomIndex].surahAyahNumber}`,
             options: shuffledOptions,
@@ -23,8 +23,8 @@ class PreviousAyahGenerator extends BaseQuestionGenerator_1.BaseQuestionGenerato
         };
     }
     get questionText() {
-        return PreviousAyahGenerator.QUESTION_TEXT;
+        return SuffixPreviousAyahGenerator.QUESTION_TEXT;
     }
 }
-exports.PreviousAyahGenerator = PreviousAyahGenerator;
-PreviousAyahGenerator.QUESTION_TEXT = 'ما هي الآية السابقة؟';
+exports.SuffixPreviousAyahGenerator = SuffixPreviousAyahGenerator;
+SuffixPreviousAyahGenerator.QUESTION_TEXT = 'ما هي نهاية الآية السابقة؟';
