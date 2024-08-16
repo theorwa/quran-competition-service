@@ -3,10 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PageNumberGenerator = void 0;
 const BaseQuestionGenerator_1 = require("../BaseQuestionGenerator");
 class PageNumberGenerator extends BaseQuestionGenerator_1.BaseQuestionGenerator {
-    generateQuestion(startPage, endPage) {
-        let ayahs = this.expandPageRange(startPage, endPage, 6);
-        const randomIndex = Math.floor(Math.random() * ayahs.length);
-        const ayah = ayahs[randomIndex];
+    generateQuestion(filteredAyahs) {
+        const randomIndex = Math.floor(Math.random() * filteredAyahs.length);
+        const ayah = filteredAyahs[randomIndex];
         if (!ayah) {
             throw new Error('Failed to generate a valid question.');
         }

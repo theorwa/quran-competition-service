@@ -12,7 +12,11 @@ class QuestionGeneratorFactory {
     static createGenerator(type) {
         if (type === 'random') {
             const keys = Object.keys(QuestionType_1.QuestionType);
-            type = QuestionType_1.QuestionType[keys[Math.floor(Math.random() * keys.length)]];
+            for (let i = keys.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [keys[i], keys[j]] = [keys[j], keys[i]];
+            }
+            type = QuestionType_1.QuestionType[keys[0]];
         }
         switch (type) {
             case QuestionType_1.QuestionType.PrefixNextAyah:

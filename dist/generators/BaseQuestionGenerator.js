@@ -3,12 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseQuestionGenerator = void 0;
 const QuestionGenerator_1 = require("./QuestionGenerator");
 class BaseQuestionGenerator extends QuestionGenerator_1.QuestionGenerator {
-    generate(startPage, endPage) {
+    generate(spec) {
         let attempts = 0;
         let question = null;
+        const filteredAyahs = spec
+            ? this.dataLoader.getFilteredData(spec)
+            : this.dataLoader.getAllData();
         while (attempts < BaseQuestionGenerator.MAX_RETRIES && !question) {
             try {
-                question = this.generateQuestion(startPage, endPage);
+                question = this.generateQuestion(filteredAyahs);
             }
             catch (error) {
                 attempts++;
@@ -25,15 +28,6 @@ class BaseQuestionGenerator extends QuestionGenerator_1.QuestionGenerator {
             [array[i], array[j]] = [array[j], array[i]];
         }
         return array;
-    }
-    getRandomOptions(allAyahs, exclude, count) {
-        const availableAyahs = allAyahs.filter((a) => !exclude.includes(a));
-        const randomOptions = [];
-        while (randomOptions.length < count && availableAyahs.length > 0) {
-            const randomIndex = Math.floor(Math.random() * availableAyahs.length);
-            randomOptions.push(availableAyahs.splice(randomIndex, 1)[0]);
-        }
-        return randomOptions;
     }
     expandPageRange(startPage, endPage, minAyahs) {
         let ayahs = this.dataLoader.getDataByPageRange(startPage, endPage);
@@ -113,10 +107,6 @@ class BaseQuestionGenerator extends QuestionGenerator_1.QuestionGenerator {
             currentIndex = previousIndex;
         }
         return uniqueAyaSuffixes;
-    }
-    formatAyahText(ayahText) {
-        const words = ayahText.split(' ');
-        return words.length > 5 ? words.slice(0, 5).join(' ') + ' ...' : ayahText;
     }
 }
 exports.BaseQuestionGenerator = BaseQuestionGenerator;

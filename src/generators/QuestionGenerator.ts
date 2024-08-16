@@ -1,5 +1,6 @@
-import { CSVDataLoader } from '../utils/CSVDataLoader';
+import {Ayah, CSVDataLoader} from '../utils/CSVDataLoader';
 import { Question } from '../models/Question';
+import {ISpecification} from "../specifications/ISpecification";
 
 export abstract class QuestionGenerator {
     protected dataLoader: CSVDataLoader;
@@ -8,7 +9,7 @@ export abstract class QuestionGenerator {
         this.dataLoader = CSVDataLoader.getInstance();
     }
 
-    abstract generate(startPage: number, endPage: number): Question;
+    abstract generate(spec: ISpecification<Ayah>): Question;
 
     // Abstract getter for question text
     public abstract get questionText(): string;

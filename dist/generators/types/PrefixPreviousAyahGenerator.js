@@ -3,10 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PrefixPreviousAyahGenerator = void 0;
 const BaseQuestionGenerator_1 = require("../BaseQuestionGenerator");
 class PrefixPreviousAyahGenerator extends BaseQuestionGenerator_1.BaseQuestionGenerator {
-    generateQuestion(startPage, endPage) {
-        let ayahs = this.expandPageRange(startPage, endPage, 6);
-        const randomIndex = Math.floor(Math.random() * Math.max(ayahs.length - 1, 1)) + 5;
-        const previousPrefixes = this.getPreviousUniqueAyaPrefixes(ayahs, randomIndex, 5);
+    generateQuestion(filteredAyahs) {
+        const randomIndex = Math.floor(Math.random() * Math.max(filteredAyahs.length - 1, 1)) + 5;
+        const previousPrefixes = this.getPreviousUniqueAyaPrefixes(filteredAyahs, randomIndex, 5);
         if (!previousPrefixes || previousPrefixes.length < 5) {
             throw new Error('Failed to generate a valid question.');
         }
@@ -14,8 +13,8 @@ class PrefixPreviousAyahGenerator extends BaseQuestionGenerator_1.BaseQuestionGe
         const shuffledOptions = this.shuffleArray(previousPrefixes);
         return {
             question: PrefixPreviousAyahGenerator.QUESTION_TEXT,
-            ayah: ayahs[randomIndex].ayahText,
-            ayahNumber: `${ayahs[randomIndex].surahName}:${ayahs[randomIndex].surahAyahNumber}`,
+            ayah: filteredAyahs[randomIndex].ayahText,
+            ayahNumber: `${filteredAyahs[randomIndex].surahName}:${filteredAyahs[randomIndex].surahAyahNumber}`,
             options: shuffledOptions,
             correct: shuffledOptions.findIndex(option => option === correctOption),
         };

@@ -66,5 +66,15 @@ class CSVDataLoader {
         }
         return this.data.filter((ayah) => ayah.pageNumber >= startPage && ayah.pageNumber <= endPage && ayah.surahAyahNumber >= 1);
     }
+    getFilteredData(specification) {
+        const ayahs = this.data;
+        return ayahs.filter(ayah => specification.isSatisfiedBy(ayah));
+    }
+    getAllData() {
+        if (!this.dataLoaded) {
+            throw new Error('CSV data is not loaded yet.');
+        }
+        return this.data;
+    }
 }
 exports.CSVDataLoader = CSVDataLoader;

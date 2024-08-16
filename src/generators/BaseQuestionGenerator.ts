@@ -1,20 +1,25 @@
 import { QuestionGenerator } from './QuestionGenerator';
 import { Ayah } from '../utils/CSVDataLoader';
 import { Question } from '../models/Question';
+import {ISpecification} from "../specifications/ISpecification";
 
 export abstract class BaseQuestionGenerator extends QuestionGenerator {
 
     private static readonly MAX_RETRIES = 3;
 
-    protected abstract generateQuestion(startPage: number, endPage: number): Question;
+    protected abstract generateQuestion(filteredAyahs: Ayah[]): Question;
 
-    public generate(startPage: number, endPage: number): Question {
+    public generate(spec: ISpecification<Ayah>): Question {
         let attempts = 0;
         let question: Question | null = null;
 
+        const filteredAyahs = spec
+            ? this.dataLoader.getFilteredData(spec)
+            : this.dataLoader.getAllData();
+
         while (attempts < BaseQuestionGenerator.MAX_RETRIES && !question) {
             try {
-                question = this.generateQuestion(startPage, endPage);
+                question = this.generateQuestion(filteredAyahs);
             } catch (error) {
                 attempts++;
                 if (attempts >= BaseQuestionGenerator.MAX_RETRIES) {
@@ -32,18 +37,6 @@ export abstract class BaseQuestionGenerator extends QuestionGenerator {
             [array[i], array[j]] = [array[j], array[i]];
         }
         return array;
-    }
-
-    protected getRandomOptions(allAyahs: Ayah[], exclude: Ayah[], count: number): Ayah[] {
-        const availableAyahs = allAyahs.filter((a) => !exclude.includes(a));
-        const randomOptions = [];
-
-        while (randomOptions.length < count && availableAyahs.length > 0) {
-            const randomIndex = Math.floor(Math.random() * availableAyahs.length);
-            randomOptions.push(availableAyahs.splice(randomIndex, 1)[0]);
-        }
-
-        return randomOptions;
     }
 
     protected expandPageRange(startPage: number, endPage: number, minAyahs: number): Ayah[] {

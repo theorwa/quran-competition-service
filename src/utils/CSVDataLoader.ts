@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import csvParser from 'csv-parser';
+import {ISpecification} from "../specifications/ISpecification";
 
 export interface Ayah {
     id: string;
@@ -89,4 +90,17 @@ export class CSVDataLoader {
             (ayah) => ayah.pageNumber >= startPage && ayah.pageNumber <= endPage && ayah.surahAyahNumber >= 1
         );
     }
+
+    public getFilteredData(specification: ISpecification<Ayah>): Ayah[] {
+        const ayahs = this.data;
+        return ayahs.filter(ayah => specification.isSatisfiedBy(ayah));
+    }
+
+    public getAllData(): Ayah[] {
+        if (!this.dataLoaded) {
+            throw new Error('CSV data is not loaded yet.');
+        }
+        return this.data;
+    }
+
 }

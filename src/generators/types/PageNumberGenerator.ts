@@ -1,15 +1,14 @@
 import { BaseQuestionGenerator } from '../BaseQuestionGenerator';
 import { Question } from '../../models/Question';
+import {Ayah} from "../../utils/CSVDataLoader";
 
 export class PageNumberGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هو رقم الصفحة؟';
 
-    protected generateQuestion(startPage: number, endPage: number): Question {
-        let ayahs = this.expandPageRange(startPage, endPage, 6);
-
+    protected generateQuestion(filteredAyahs: Ayah[]): Question {
         // Select a random ayah from the range
-        const randomIndex = Math.floor(Math.random() * ayahs.length);
-        const ayah = ayahs[randomIndex];
+        const randomIndex = Math.floor(Math.random() * filteredAyahs.length);
+        const ayah = filteredAyahs[randomIndex];
 
         if (!ayah) {
             throw new Error('Failed to generate a valid question.');
