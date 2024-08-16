@@ -1,7 +1,7 @@
 import { BaseQuestionGenerator } from '../BaseQuestionGenerator';
 import { Question } from '../../models/Question';
 
-export class PreviousAyahGenerator extends BaseQuestionGenerator {
+export class PrefixPreviousAyahGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هي الآية السابقة؟';
 
     protected generateQuestion(startPage: number, endPage: number): Question {
@@ -17,7 +17,7 @@ export class PreviousAyahGenerator extends BaseQuestionGenerator {
         previousPrefixes.push(ayahs[previousAyahIndex].prefix);
         const shuffledOptions = this.shuffleArray(previousPrefixes);
         return {
-            question: PreviousAyahGenerator.QUESTION_TEXT,
+            question: PrefixPreviousAyahGenerator.QUESTION_TEXT,
             ayah: ayahs[randomIndex].ayahText,
             ayahNumber: `${ayahs[randomIndex].surahName}:${ayahs[randomIndex].surahAyahNumber}`,
             options: shuffledOptions,
@@ -26,6 +26,6 @@ export class PreviousAyahGenerator extends BaseQuestionGenerator {
     }
 
     public get questionText(): string {
-        return PreviousAyahGenerator.QUESTION_TEXT;
+        return PrefixPreviousAyahGenerator.QUESTION_TEXT;
     }
 }

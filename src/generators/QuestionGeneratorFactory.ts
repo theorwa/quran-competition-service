@@ -1,7 +1,7 @@
 import { QuestionType } from '../models/QuestionType';
 import { IQuestionGenerator } from './IQuestionGenerator';
 import { NextAyahGenerator } from './types/NextAyahGenerator';
-import { PreviousAyahGenerator } from './types/PreviousAyahGenerator';
+import { PrefixPreviousAyahGenerator } from './types/PrefixPreviousAyahGenerator';
 import {SuffixAyahGenerator} from "./types/SuffixAyahGenerator";
 import {PageNumberGenerator} from "./types/PageNumberGenerator";
 import {AyatPageCountGenerator} from "./types/AyatPageCountGenerator";
@@ -17,8 +17,8 @@ export class QuestionGeneratorFactory {
         switch (type) {
             case QuestionType.NextAyah:
                 return new NextAyahGenerator();
-            case QuestionType.PreviousAyah:
-                return new PreviousAyahGenerator();
+            case QuestionType.PrefixPreviousAyah:
+                return new PrefixPreviousAyahGenerator();
             case QuestionType.SuffixAyah:
                 return new SuffixAyahGenerator();
             case QuestionType.PageNumber:
