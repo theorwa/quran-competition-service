@@ -9,7 +9,7 @@ export abstract class QuestionGenerator {
         this.dataLoader = CSVDataLoader.getInstance();
     }
 
-    abstract generate(spec: ISpecification<Ayah>): Question;
+    abstract generate(spec: ISpecification<Ayah>, ayahIndex: number | null): Question;
 
     // Abstract getter for question text
     public abstract get questionText(): string;

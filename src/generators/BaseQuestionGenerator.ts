@@ -7,9 +7,9 @@ export abstract class BaseQuestionGenerator extends QuestionGenerator {
 
     private static readonly MAX_RETRIES = 3;
 
-    protected abstract generateQuestion(filteredAyahs: Ayah[]): Question;
+    protected abstract generateQuestion(filteredAyahs: Ayah[], ayahIndex: number | null): Question;
 
-    public generate(spec: ISpecification<Ayah>): Question {
+    public generate(spec: ISpecification<Ayah>, ayahIndex: number | null): Question {
         let attempts = 0;
         let question: Question | null = null;
 
@@ -17,9 +17,13 @@ export abstract class BaseQuestionGenerator extends QuestionGenerator {
             ? this.dataLoader.getFilteredData(spec)
             : this.dataLoader.getAllData();
 
+        if (ayahIndex !== null && (ayahIndex >= filteredAyahs.length || ayahIndex < 0)) {
+            ayahIndex = null;
+        }
+
         while (attempts < BaseQuestionGenerator.MAX_RETRIES && !question) {
             try {
-                question = this.generateQuestion(filteredAyahs);
+                question = this.generateQuestion(filteredAyahs, ayahIndex);
             } catch (error) {
                 attempts++;
                 if (attempts >= BaseQuestionGenerator.MAX_RETRIES) {

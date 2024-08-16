@@ -8,6 +8,7 @@ import { AllAyahsSpecification } from '../specifications/AllAyahsSpecification';
 export class QuestionController {
     public static generateQuestion(req: Request, res: Response): void {
         const questionType: string = (req.query.question_type as string) || QuestionType.PrefixNextAyah;
+        const ayahIndex: number | null = req.query.ayah_index ? Number(req.query.ayah_index) : null;
 
         const specifications: ISpecification<any>[] = [];
 
@@ -39,7 +40,7 @@ export class QuestionController {
 
         try {
             const generator = QuestionGeneratorFactory.createGenerator(questionType);
-            const question = generator.generate(combinedSpecification);
+            const question = generator.generate(combinedSpecification, ayahIndex);
             res.json(question);
         } catch (error) {
             if (error instanceof Error) {

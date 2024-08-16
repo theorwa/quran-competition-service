@@ -3,15 +3,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseQuestionGenerator = void 0;
 const QuestionGenerator_1 = require("./QuestionGenerator");
 class BaseQuestionGenerator extends QuestionGenerator_1.QuestionGenerator {
-    generate(spec) {
+    generate(spec, ayahIndex) {
         let attempts = 0;
         let question = null;
         const filteredAyahs = spec
             ? this.dataLoader.getFilteredData(spec)
             : this.dataLoader.getAllData();
+        if (ayahIndex !== null && (ayahIndex >= filteredAyahs.length || ayahIndex < 0)) {
+            ayahIndex = null;
+        }
         while (attempts < BaseQuestionGenerator.MAX_RETRIES && !question) {
             try {
-                question = this.generateQuestion(filteredAyahs);
+                question = this.generateQuestion(filteredAyahs, ayahIndex);
             }
             catch (error) {
                 attempts++;

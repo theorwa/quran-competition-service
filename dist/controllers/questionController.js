@@ -8,6 +8,7 @@ const AllAyahsSpecification_1 = require("../specifications/AllAyahsSpecification
 class QuestionController {
     static generateQuestion(req, res) {
         const questionType = req.query.question_type || QuestionType_1.QuestionType.PrefixNextAyah;
+        const ayahIndex = req.query.ayah_index ? Number(req.query.ayah_index) : null;
         const specifications = [];
         const pageRangeSpec = SpecificationFactory_1.SpecificationFactory.createPageRangeSpecification(req.query);
         if (pageRangeSpec)
@@ -30,7 +31,7 @@ class QuestionController {
         }
         try {
             const generator = QuestionGeneratorFactory_1.QuestionGeneratorFactory.createGenerator(questionType);
-            const question = generator.generate(combinedSpecification);
+            const question = generator.generate(combinedSpecification, ayahIndex);
             res.json(question);
         }
         catch (error) {

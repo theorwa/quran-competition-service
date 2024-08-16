@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AyatPageCountGenerator = void 0;
 const BaseQuestionGenerator_1 = require("../BaseQuestionGenerator");
 class AyatPageCountGenerator extends BaseQuestionGenerator_1.BaseQuestionGenerator {
-    generateQuestion(filteredAyahs) {
-        const randomIndex = Math.floor(Math.random() * filteredAyahs.length);
+    generateQuestion(filteredAyahs, ayahIndex) {
+        const randomIndex = ayahIndex !== null ? ayahIndex : Math.floor(Math.random() * filteredAyahs.length);
         const ayah = filteredAyahs[randomIndex];
         if (!ayah) {
             throw new Error('Failed to generate a valid question.');

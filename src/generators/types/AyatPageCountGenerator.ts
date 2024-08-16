@@ -5,9 +5,8 @@ import { Ayah } from '../../utils/CSVDataLoader';
 export class AyatPageCountGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هو عدد الآيات في الصفحة؟';
 
-    protected generateQuestion(filteredAyahs: Ayah[]): Question {
-        // Select a random ayah from the range
-        const randomIndex = Math.floor(Math.random() * filteredAyahs.length);
+    protected generateQuestion(filteredAyahs: Ayah[], ayahIndex: number | null): Question {
+        const randomIndex = ayahIndex !== null ? ayahIndex : Math.floor(Math.random() * filteredAyahs.length);
         const ayah = filteredAyahs[randomIndex];
 
         if (!ayah) {

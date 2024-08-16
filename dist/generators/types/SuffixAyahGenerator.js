@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SuffixAyahGenerator = void 0;
 const BaseQuestionGenerator_1 = require("../BaseQuestionGenerator");
 class SuffixAyahGenerator extends BaseQuestionGenerator_1.BaseQuestionGenerator {
-    generateQuestion(filteredAyahs) {
-        const randomIndex = Math.floor(Math.random() * Math.max(filteredAyahs.length - 1, 1));
+    generateQuestion(filteredAyahs, ayahIndex) {
+        const randomIndex = ayahIndex !== null ? ayahIndex : Math.floor(Math.random() * Math.max(filteredAyahs.length - 1, 1));
         const previousAyahIndex = this.getPreviousAyah(filteredAyahs, randomIndex);
         const nextSuffixes = this.getNextUniqueAyaSuffixes(filteredAyahs, previousAyahIndex, 5);
         if (!nextSuffixes || nextSuffixes.length < 5) {

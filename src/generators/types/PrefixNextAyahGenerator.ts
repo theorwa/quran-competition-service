@@ -5,8 +5,8 @@ import {Ayah} from "../../utils/CSVDataLoader";
 export class PrefixNextAyahGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هي بداية الآية التالية؟';
 
-    protected generateQuestion(filteredAyahs: Ayah[]): Question {
-        const randomIndex = Math.floor(Math.random() * Math.max(filteredAyahs.length - 1, 1));
+    protected generateQuestion(filteredAyahs: Ayah[], ayahIndex: number | null): Question {
+        const randomIndex = ayahIndex !== null ? ayahIndex : Math.floor(Math.random() * Math.max(filteredAyahs.length - 1, 1));
         const nextAyahIndex = this.getNextAyah(filteredAyahs, randomIndex);
         const nextPrefixes = this.getNextUniqueAyaPrefixes(filteredAyahs, nextAyahIndex, 4);
         if (!nextPrefixes || nextPrefixes.length < 4) {

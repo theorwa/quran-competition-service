@@ -5,8 +5,8 @@ import {Ayah} from "../../utils/CSVDataLoader";
 export class SuffixPreviousAyahGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هي نهاية الآية السابقة؟';
 
-    protected generateQuestion(filteredAyahs: Ayah[]): Question {
-        const randomIndex = Math.floor(Math.random() * Math.max(filteredAyahs.length - 1, 1)) + 5;
+    protected generateQuestion(filteredAyahs: Ayah[], ayahIndex: number | null): Question {
+        const randomIndex = ayahIndex !== null ? ayahIndex : Math.floor(Math.random() * Math.max(filteredAyahs.length - 1, 1));
         const previousSuffixes = this.getPreviousUniqueAyaSuffixes(filteredAyahs, randomIndex, 5);
         if (!previousSuffixes || previousSuffixes.length < 5) {
             throw new Error('Failed to generate a valid question.');
