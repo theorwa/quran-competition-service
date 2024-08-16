@@ -8,13 +8,11 @@ export class PrefixPreviousAyahGenerator extends BaseQuestionGenerator {
         let ayahs = this.expandPageRange(startPage, endPage, 6);
 
         const randomIndex = Math.floor(Math.random() * Math.max(ayahs.length - 1, 1)) + 5;
-        const previousAyahIndex = this.getPreviousAyah(ayahs, randomIndex);
-        const previousPrefixes = this.getPreviousUniqueAyaPrefixes(ayahs, previousAyahIndex, 4);
-        if (!previousPrefixes || previousPrefixes.length < 4) {
+        const previousPrefixes = this.getPreviousUniqueAyaPrefixes(ayahs, randomIndex, 5);
+        if (!previousPrefixes || previousPrefixes.length < 5) {
             throw new Error('Failed to generate a valid question.');
         }
-        const correctOption = ayahs[previousAyahIndex].prefix;
-        previousPrefixes.push(ayahs[previousAyahIndex].prefix);
+        const correctOption = previousPrefixes[0];
         const shuffledOptions = this.shuffleArray(previousPrefixes);
         return {
             question: PrefixPreviousAyahGenerator.QUESTION_TEXT,
