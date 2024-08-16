@@ -6,31 +6,19 @@ class SuffixAyahGenerator extends BaseQuestionGenerator_1.BaseQuestionGenerator 
     generateQuestion(startPage, endPage) {
         let ayahs = this.expandPageRange(startPage, endPage, 6);
         const randomIndex = Math.floor(Math.random() * Math.max(ayahs.length - 1, 1));
-        const ayah = ayahs[randomIndex];
-        if (!ayah) {
+        const suffixes = this.getNextUniqueAyaSuffixes(ayahs, randomIndex, 4);
+        if (!suffixes || suffixes.length < 4) {
             throw new Error('Failed to generate a valid question.');
         }
-        const ayahWords = ayah.ayahText.split(' ');
-        const firstPart = ayahWords.length > 4 ? ayahWords.slice(0, 4).join(' ') + ' ...' : ayah.ayahText;
-        const correctSuffix = ayahWords.length > 4 ? ayahWords.slice(-4).join(' ') : ayah.ayahText;
-        let suffixOptions = ayahs.slice(randomIndex + 1, randomIndex + 6).map(a => {
-            const words = a.ayahText.split(' ');
-            return words.length > 4 ? words.slice(-4).join(' ') : a.ayahText;
-        });
-        if (suffixOptions.length < 4) {
-            const additionalOptions = this.getRandomOptions(ayahs, ayahs.slice(randomIndex + 1, randomIndex + 6), 4 - suffixOptions.length).map(a => {
-                const words = a.ayahText.split(' ');
-                return words.length > 4 ? words.slice(-4).join(' ') : a.ayahText;
-            });
-            suffixOptions = suffixOptions.concat(additionalOptions);
-        }
-        const options = this.shuffleArray([correctSuffix, ...suffixOptions]);
+        const correctOption = ayahs[randomIndex].suffix;
+        suffixes.push(ayahs[randomIndex].suffix);
+        const shuffledOptions = this.shuffleArray(suffixes);
         return {
             question: SuffixAyahGenerator.QUESTION_TEXT,
-            ayah: firstPart,
-            ayahNumber: `${ayah.surahName}:${ayah.surahAyahNumber}`,
-            options: options,
-            correct: options.findIndex(option => option === correctSuffix),
+            ayah: ayahs[randomIndex].ayahText,
+            ayahNumber: `${ayahs[randomIndex].surahName}:${ayahs[randomIndex].surahAyahNumber}`,
+            options: shuffledOptions,
+            correct: shuffledOptions.findIndex(option => option === correctOption),
         };
     }
     get questionText() {
