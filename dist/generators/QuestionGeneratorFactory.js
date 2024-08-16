@@ -9,6 +9,10 @@ const PageNumberGenerator_1 = require("./types/PageNumberGenerator");
 const AyatPageCountGenerator_1 = require("./types/AyatPageCountGenerator");
 class QuestionGeneratorFactory {
     static createGenerator(type) {
+        if (type === 'random') {
+            const keys = Object.keys(QuestionType_1.QuestionType);
+            type = QuestionType_1.QuestionType[keys[Math.floor(Math.random() * keys.length)]];
+        }
         switch (type) {
             case QuestionType_1.QuestionType.NextAyah:
                 return new NextAyahGenerator_1.NextAyahGenerator();

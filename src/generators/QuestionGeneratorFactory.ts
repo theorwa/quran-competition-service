@@ -10,7 +10,7 @@ import {FirstAyahInPageGenerator} from "./types/FirstAyahInPageGenerator";
 export class QuestionGeneratorFactory {
     public static createGenerator(type: string): IQuestionGenerator {
         if (type === 'random') {
-            const keys = Object.keys(QuestionType);
+            const keys = Object.keys(QuestionType) as Array<keyof typeof QuestionType>;
             type = QuestionType[keys[Math.floor(Math.random() * keys.length)]];
         }
         switch (type) {
