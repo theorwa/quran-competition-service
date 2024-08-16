@@ -7,13 +7,13 @@ export class SuffixAyahGenerator extends BaseQuestionGenerator {
     protected generateQuestion(startPage: number, endPage: number): Question {
         let ayahs = this.expandPageRange(startPage, endPage, 6);
         const randomIndex = Math.floor(Math.random() * Math.max(ayahs.length - 1, 1));
-        const suffixes = this.getNextUniqueAyaSuffixes(ayahs, randomIndex, 4);
-        if (!suffixes || suffixes.length < 4) {
+        const previousAyahIndex = this.getPreviousAyah(ayahs, randomIndex);
+        const previousSuffixes = this.getPreviousUniqueAyaSuffixes(ayahs, previousAyahIndex, 5);
+        if (!previousSuffixes || previousSuffixes.length < 5) {
             throw new Error('Failed to generate a valid question.');
         }
-        const correctOption = ayahs[randomIndex].suffix;
-        suffixes.push(ayahs[randomIndex].suffix);
-        const shuffledOptions = this.shuffleArray(suffixes);
+        const correctOption = previousSuffixes[0];
+        const shuffledOptions = this.shuffleArray(previousSuffixes);
         return {
             question: SuffixAyahGenerator.QUESTION_TEXT,
             ayah: ayahs[randomIndex].ayahText,
