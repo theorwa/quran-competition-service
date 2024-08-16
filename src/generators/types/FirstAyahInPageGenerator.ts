@@ -31,13 +31,13 @@ export class FirstAyahInPageGenerator extends BaseQuestionGenerator {
 
         // Generate the first ayahs of 4 other pages within the range
         const firstAyahs = new Set<string>();
-        firstAyahs.add(this.formatAyahText(correctFirstAyah.ayahText));
+        firstAyahs.add(correctFirstAyah.prefix);
 
         while (firstAyahs.size < 5) {
             const randomPage = Math.floor(Math.random() * (endPage - startPage + 1)) + startPage;
             const firstAyahOfPage = ayahs.find(a => a.pageNumber === randomPage && a.surahAyahNumber === 1);
             if (firstAyahOfPage) {
-                firstAyahs.add(this.formatAyahText(firstAyahOfPage.ayahText));
+                firstAyahs.add(correctFirstAyah.prefix);
             }
 
             // To avoid infinite loop, if we've exhausted all possibilities within the range, break out
@@ -50,7 +50,7 @@ export class FirstAyahInPageGenerator extends BaseQuestionGenerator {
 
         // Shuffle options and find the correct index
         const shuffledOptions = this.shuffleArray(options);
-        const correctIndex = shuffledOptions.indexOf(this.formatAyahText(correctFirstAyah.ayahText));
+        const correctIndex = shuffledOptions.indexOf(correctFirstAyah.prefix);
 
         return {
             question: FirstAyahInPageGenerator.QUESTION_TEXT,
