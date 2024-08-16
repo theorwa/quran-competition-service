@@ -5,7 +5,7 @@ const QuestionGeneratorFactory_1 = require("../generators/QuestionGeneratorFacto
 const QuestionType_1 = require("../models/QuestionType");
 class QuestionController {
     static generateQuestion(req, res) {
-        const questionType = req.query.question_type || QuestionType_1.QuestionType.NextAyah;
+        const questionType = req.query.question_type || QuestionType_1.QuestionType.PrefixNextAyah;
         let startPage = Number(req.query.start_page) || 1;
         let endPage = Number(req.query.end_page) || 604;
         if (startPage > endPage) {

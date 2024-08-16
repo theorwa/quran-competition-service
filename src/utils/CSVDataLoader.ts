@@ -3,14 +3,20 @@ import path from 'path';
 import csvParser from 'csv-parser';
 
 export interface Ayah {
-    prefix: string;
-    suffix: string;
+    id: string;
+    globalAyahNumber: number;
     surahNumber: number;
+    surahName: string;
     surahAyahNumber: number;
     ayahText: string;
-    id: string;
     pageNumber: number;
-    surahName: string;
+    pageAyatCount: number;
+    firstAyahInPage: boolean;
+    juzNumber: number;
+    hizbNumber: number;
+    rubNumber: number;
+    prefix: string;
+    suffix: string;
 }
 
 export class CSVDataLoader {
@@ -30,17 +36,24 @@ export class CSVDataLoader {
     }
 
     private loadData(): void {
-        const filePath = path.join(__dirname, '../../data/quran.csv');
+        // read the CSV file path from the env variable
+        const filePath = path.join(__dirname, '../../data/quran_v2.csv');
         fs.createReadStream(filePath)
             .pipe(csvParser())
             .on('data', (row) => {
                 this.data.push({
+                    id: row.id,
+                    globalAyahNumber: Number(row.globalAyahNumber),
                     surahNumber: Number(row.surahNumber),
+                    surahName: row.surahName,
                     surahAyahNumber: Number(row.surahAyahNumber),
                     ayahText: row.ayahText,
-                    id: row.id,
                     pageNumber: Number(row.pageNumber),
-                    surahName: row.surahName,
+                    pageAyatCount: Number(row.pageAyatCount),
+                    firstAyahInPage: row.firstAyahInPage === '1',
+                    juzNumber: Number(row.juzNumber),
+                    hizbNumber: Number(row.hizbNumber),
+                    rubNumber: Number(row.rubNumber),
                     prefix: this.getPrefix(row.ayahText),
                     suffix: this.getSuffix(row.ayahText),
                 });

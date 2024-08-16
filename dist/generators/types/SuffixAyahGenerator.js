@@ -26,4 +26,4 @@ class SuffixAyahGenerator extends BaseQuestionGenerator_1.BaseQuestionGenerator 
     }
 }
 exports.SuffixAyahGenerator = SuffixAyahGenerator;
-SuffixAyahGenerator.QUESTION_TEXT = 'ما هي خاتمة الآية؟';
+SuffixAyahGenerator.QUESTION_TEXT = 'ما هي نهاية الآية؟';

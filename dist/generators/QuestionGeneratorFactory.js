@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.QuestionGeneratorFactory = void 0;
 const QuestionType_1 = require("../models/QuestionType");
-const NextAyahGenerator_1 = require("./types/NextAyahGenerator");
-const PreviousAyahGenerator_1 = require("./types/PreviousAyahGenerator");
+const PrefixNextAyahGenerator_1 = require("./types/PrefixNextAyahGenerator");
+const PrefixPreviousAyahGenerator_1 = require("./types/PrefixPreviousAyahGenerator");
 const SuffixAyahGenerator_1 = require("./types/SuffixAyahGenerator");
 const PageNumberGenerator_1 = require("./types/PageNumberGenerator");
 const AyatPageCountGenerator_1 = require("./types/AyatPageCountGenerator");
@@ -15,10 +15,10 @@ class QuestionGeneratorFactory {
             type = QuestionType_1.QuestionType[keys[Math.floor(Math.random() * keys.length)]];
         }
         switch (type) {
-            case QuestionType_1.QuestionType.NextAyah:
-                return new NextAyahGenerator_1.NextAyahGenerator();
-            case QuestionType_1.QuestionType.PreviousAyah:
-                return new PreviousAyahGenerator_1.PreviousAyahGenerator();
+            case QuestionType_1.QuestionType.PrefixNextAyah:
+                return new PrefixNextAyahGenerator_1.PrefixNextAyahGenerator();
+            case QuestionType_1.QuestionType.PrefixPreviousAyah:
+                return new PrefixPreviousAyahGenerator_1.PrefixPreviousAyahGenerator();
             case QuestionType_1.QuestionType.SuffixAyah:
                 return new SuffixAyahGenerator_1.SuffixAyahGenerator();
             case QuestionType_1.QuestionType.PageNumber:
@@ -28,7 +28,7 @@ class QuestionGeneratorFactory {
             case QuestionType_1.QuestionType.SuffixPreviousAyah:
                 return new SuffixPreviousAyahGenerator_1.SuffixPreviousAyahGenerator();
             default:
-                return new NextAyahGenerator_1.NextAyahGenerator();
+                return new PrefixNextAyahGenerator_1.PrefixNextAyahGenerator();
         }
     }
 }

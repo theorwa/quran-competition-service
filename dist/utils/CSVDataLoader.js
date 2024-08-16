@@ -20,17 +20,23 @@ class CSVDataLoader {
         return CSVDataLoader.instance;
     }
     loadData() {
-        const filePath = path_1.default.join(__dirname, '../../data/quran.csv');
+        const filePath = path_1.default.join(__dirname, '../../data/quran_v2.csv');
         fs_1.default.createReadStream(filePath)
             .pipe((0, csv_parser_1.default)())
             .on('data', (row) => {
             this.data.push({
+                id: row.id,
+                globalAyahNumber: Number(row.globalAyahNumber),
                 surahNumber: Number(row.surahNumber),
+                surahName: row.surahName,
                 surahAyahNumber: Number(row.surahAyahNumber),
                 ayahText: row.ayahText,
-                id: row.id,
                 pageNumber: Number(row.pageNumber),
-                surahName: row.surahName,
+                pageAyatCount: Number(row.pageAyatCount),
+                firstAyahInPage: row.firstAyahInPage === '1',
+                juzNumber: Number(row.juzNumber),
+                hizbNumber: Number(row.hizbNumber),
+                rubNumber: Number(row.rubNumber),
                 prefix: this.getPrefix(row.ayahText),
                 suffix: this.getSuffix(row.ayahText),
             });
