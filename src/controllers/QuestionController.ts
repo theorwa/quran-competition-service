@@ -14,6 +14,16 @@ export class QuestionController {
 
         const specifications: ISpecification<any>[] = [];
 
+        // Handle start_page and end_page as a page range specification
+        if (req.query.start_page && req.query.end_page) {
+            let startPage: number = Number(req.query.start_page);
+            let endPage: number = Number(req.query.end_page);
+            if (startPage > endPage) {
+                [startPage, endPage] = [endPage, startPage];
+            }
+            specifications.push(new PageRangeSpecification(startPage, endPage));
+        }
+
         // Handle multiple page ranges or specific pages
         if (req.query.pages) {
             const pageSpecs = (req.query.pages as string).split(',').map(range => {

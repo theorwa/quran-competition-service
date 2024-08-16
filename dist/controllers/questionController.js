@@ -12,6 +12,14 @@ class QuestionController {
     static generateQuestion(req, res) {
         const questionType = req.query.question_type || QuestionType_1.QuestionType.PrefixNextAyah;
         const specifications = [];
+        if (req.query.start_page && req.query.end_page) {
+            let startPage = Number(req.query.start_page);
+            let endPage = Number(req.query.end_page);
+            if (startPage > endPage) {
+                [startPage, endPage] = [endPage, startPage];
+            }
+            specifications.push(new PageRangeSpecification_1.PageRangeSpecification(startPage, endPage));
+        }
         if (req.query.pages) {
             const pageSpecs = req.query.pages.split(',').map(range => {
                 const [start, end] = range.split('-').map(Number);
