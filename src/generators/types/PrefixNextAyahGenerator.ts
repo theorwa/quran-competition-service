@@ -2,7 +2,7 @@ import { BaseQuestionGenerator } from '../BaseQuestionGenerator';
 import { Question } from '../../models/Question';
 import {Ayah} from "../../utils/CSVDataLoader";
 
-export class NextAyahGenerator extends BaseQuestionGenerator {
+export class PrefixNextAyahGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هي الآية التالية؟';
 
     protected generateQuestion(startPage: number, endPage: number): Question {
@@ -17,7 +17,7 @@ export class NextAyahGenerator extends BaseQuestionGenerator {
         nextPrefixes.push(ayahs[nextAyahIndex].prefix);
         const shuffledOptions = this.shuffleArray(nextPrefixes);
         return {
-            question: NextAyahGenerator.QUESTION_TEXT,
+            question: PrefixNextAyahGenerator.QUESTION_TEXT,
             ayah: ayahs[randomIndex].ayahText,
             ayahNumber: `${ayahs[randomIndex].surahName}:${ayahs[randomIndex].surahAyahNumber}`,
             options: shuffledOptions,
@@ -27,6 +27,6 @@ export class NextAyahGenerator extends BaseQuestionGenerator {
     }
 
     public get questionText(): string {
-        return NextAyahGenerator.QUESTION_TEXT;
+        return PrefixNextAyahGenerator.QUESTION_TEXT;
     }
 }

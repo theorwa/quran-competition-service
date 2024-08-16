@@ -1,6 +1,6 @@
 import { QuestionType } from '../models/QuestionType';
 import { IQuestionGenerator } from './IQuestionGenerator';
-import { NextAyahGenerator } from './types/NextAyahGenerator';
+import { PrefixNextAyahGenerator } from './types/PrefixNextAyahGenerator';
 import { PrefixPreviousAyahGenerator } from './types/PrefixPreviousAyahGenerator';
 import {SuffixAyahGenerator} from "./types/SuffixAyahGenerator";
 import {PageNumberGenerator} from "./types/PageNumberGenerator";
@@ -15,8 +15,8 @@ export class QuestionGeneratorFactory {
             type = QuestionType[keys[Math.floor(Math.random() * keys.length)]];
         }
         switch (type) {
-            case QuestionType.NextAyah:
-                return new NextAyahGenerator();
+            case QuestionType.PrefixNextAyah:
+                return new PrefixNextAyahGenerator();
             case QuestionType.PrefixPreviousAyah:
                 return new PrefixPreviousAyahGenerator();
             case QuestionType.SuffixAyah:
@@ -28,7 +28,7 @@ export class QuestionGeneratorFactory {
             case QuestionType.SuffixPreviousAyah:
                 return new SuffixPreviousAyahGenerator();
             default:
-                return new NextAyahGenerator();
+                return new PrefixNextAyahGenerator();
         }
     }
 }

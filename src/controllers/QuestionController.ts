@@ -4,7 +4,7 @@ import { QuestionType } from '../models/QuestionType';
 
 export class QuestionController {
     public static generateQuestion(req: Request, res: Response): void {
-        const questionType: string = (req.query.question_type as string) || QuestionType.NextAyah;
+        const questionType: string = (req.query.question_type as string) || QuestionType.PrefixNextAyah;
         let startPage: number = Number(req.query.start_page) || 1;
         let endPage: number = Number(req.query.end_page) || 604;
         if (startPage > endPage) {

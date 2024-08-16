@@ -1,5 +1,5 @@
 export enum QuestionType {
-    NextAyah = 'next_ayah',
+    PrefixNextAyah = 'prefix_next_ayah',
     PrefixPreviousAyah = 'prefix_previous_ayah',
     SuffixAyah = 'suffix_ayah',
     PageNumber = 'page_number',
