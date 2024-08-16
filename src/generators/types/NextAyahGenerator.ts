@@ -19,14 +19,14 @@ export class NextAyahGenerator extends BaseQuestionGenerator {
                 const randomIndex = Math.floor(Math.random() * ayahs.length);
                 const randomAyah = ayahs[randomIndex];
                 const formattedAyah = this.formatAyahText(randomAyah.ayahText);
-                if (options.findIndex(option => option.ayahText === formattedAyah) === -1) {
+                if (options.findIndex(option => this.formatAyahText(option.ayahText) === formattedAyah) === -1) {
                     options.push(randomAyah);
                 }
             } else {
                 const nextAyah = nextAyahs.shift();
                 if (nextAyah) {
                     const formattedAyah = this.formatAyahText(nextAyah.ayahText);
-                    if (options.findIndex(option => option.ayahText === formattedAyah) === -1) {
+                    if (options.findIndex(option => this.formatAyahText(option.ayahText) === formattedAyah) === -1) {
                         options.push(nextAyah);
                     }
                 }
