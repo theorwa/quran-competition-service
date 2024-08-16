@@ -1,5 +1,6 @@
 import { BaseQuestionGenerator } from '../BaseQuestionGenerator';
 import { Question } from '../../models/Question';
+import {Ayah} from "../../utils/CSVDataLoader";
 
 export class NextAyahGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هي الآية التالية؟';
@@ -9,21 +10,32 @@ export class NextAyahGenerator extends BaseQuestionGenerator {
 
         const randomIndex = Math.floor(Math.random() * Math.max(ayahs.length - 1, 1));
         const ayah = ayahs[randomIndex];
-        let nextAyahs = ayahs.slice(randomIndex + 1, randomIndex + 6);
+        let nextAyahs = ayahs.slice(randomIndex + 1, randomIndex + 15);
 
-        if (nextAyahs.length < 5) {
-            const additionalAyahs = this.getRandomOptions(ayahs, nextAyahs, 5 - nextAyahs.length);
-            nextAyahs = nextAyahs.concat(additionalAyahs);
+        let options: Ayah[] = [];
+
+        while (options.length < 5) {
+            if (nextAyahs.length === 0) {
+                const randomIndex = Math.floor(Math.random() * ayahs.length);
+                const randomAyah = ayahs[randomIndex];
+                const formattedAyah = this.formatAyahText(randomAyah.ayahText);
+                if (options.findIndex(option => option.ayahText === formattedAyah) === -1) {
+                    options.push(randomAyah);
+                }
+            } else {
+                const nextAyah = nextAyahs.shift();
+                if (nextAyah) {
+                    const formattedAyah = this.formatAyahText(nextAyah.ayahText);
+                    if (options.findIndex(option => option.ayahText === formattedAyah) === -1) {
+                        options.push(nextAyah);
+                    }
+                }
+            }
         }
 
-        if (!ayah || !nextAyahs[0]) {
-            throw new Error('Failed to generate a valid question.');
-        }
+        const shuffledOptions = this.shuffleArray(options);
 
-        // The first ayah in nextAyahs should be the correct one
-        const correctAyah = nextAyahs[0];
-
-        const shuffledOptions = this.shuffleArray(nextAyahs);
+        const correctAyah = ayahs[randomIndex + 1];
 
         return {
             question: NextAyahGenerator.QUESTION_TEXT,
