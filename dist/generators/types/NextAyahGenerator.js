@@ -6,23 +6,18 @@ class NextAyahGenerator extends BaseQuestionGenerator_1.BaseQuestionGenerator {
     generateQuestion(startPage, endPage) {
         let ayahs = this.expandPageRange(startPage, endPage, 6);
         const randomIndex = Math.floor(Math.random() * Math.max(ayahs.length - 1, 1));
-        const ayah = ayahs[randomIndex];
-        let nextAyahs = ayahs.slice(randomIndex + 1, randomIndex + 6);
-        if (nextAyahs.length < 5) {
-            const additionalAyahs = this.getRandomOptions(ayahs, nextAyahs, 5 - nextAyahs.length);
-            nextAyahs = nextAyahs.concat(additionalAyahs);
-        }
-        if (!ayah || !nextAyahs[0]) {
+        const nextPrefixes = this.getNextUniqueAyaPrefixes(ayahs, randomIndex, 5);
+        if (!ayahs[randomIndex] || nextPrefixes.length < 5) {
             throw new Error('Failed to generate a valid question.');
         }
-        const correctAyah = nextAyahs[0];
-        const shuffledOptions = this.shuffleArray(nextAyahs);
+        const correctOption = nextPrefixes[0].ayahText;
+        const shuffledOptions = this.shuffleArray(nextPrefixes.map((option) => option.ayahText));
         return {
             question: NextAyahGenerator.QUESTION_TEXT,
-            ayah: ayah.ayahText,
-            ayahNumber: `${ayah.surahName}:${ayah.surahAyahNumber}`,
-            options: shuffledOptions.map((option) => this.formatAyahText(option.ayahText)),
-            correct: shuffledOptions.findIndex(option => option === correctAyah),
+            ayah: ayahs[randomIndex].ayahText,
+            ayahNumber: `${ayahs[randomIndex].surahName}:${ayahs[randomIndex].surahAyahNumber}`,
+            options: shuffledOptions,
+            correct: shuffledOptions.findIndex(option => option === correctOption),
         };
     }
     get questionText() {

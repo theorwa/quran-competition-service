@@ -46,6 +46,90 @@ class BaseQuestionGenerator extends QuestionGenerator_1.QuestionGenerator {
         }
         return ayahs;
     }
+    getNextAyah(ayahs, randomIndex) {
+        return (randomIndex + 1) % ayahs.length;
+    }
+    getPreviousAyah(ayahs, randomIndex) {
+        return (randomIndex - 1 + ayahs.length) % ayahs.length;
+    }
+    getNextAyahs(ayahs, randomIndex, count) {
+        const nextAyahs = [];
+        for (let i = 1; i <= count; i++) {
+            nextAyahs.push(ayahs[this.getNextAyah(ayahs, randomIndex + i)]);
+        }
+        return nextAyahs;
+    }
+    getPreviousAyahs(ayahs, randomIndex, count) {
+        const previousAyahs = [];
+        for (let i = 1; i <= count; i++) {
+            previousAyahs.push(ayahs[this.getPreviousAyah(ayahs, randomIndex - i)]);
+        }
+        return previousAyahs;
+    }
+    getNextUniqueAyaPrefix(ayahs, randomIndex) {
+        let nextIndex = this.getNextAyah(ayahs, randomIndex);
+        while (ayahs[nextIndex].prefix === ayahs[randomIndex].prefix) {
+            nextIndex = this.getNextAyah(ayahs, nextIndex);
+        }
+        return nextIndex;
+    }
+    getPreviousUniqueAyaPrefix(ayahs, randomIndex) {
+        let previousIndex = this.getPreviousAyah(ayahs, randomIndex);
+        while (ayahs[previousIndex].prefix === ayahs[randomIndex].prefix) {
+            previousIndex = this.getPreviousAyah(ayahs, previousIndex);
+        }
+        return previousIndex;
+    }
+    getNextUniqueAyaPrefixes(ayahs, randomIndex, count) {
+        const uniqueAyaPrefixes = [];
+        let currentIndex = randomIndex;
+        for (let i = 1; i <= count; i++) {
+            currentIndex = this.getNextUniqueAyaPrefix(ayahs, currentIndex);
+            uniqueAyaPrefixes.push(ayahs[currentIndex]);
+        }
+        return uniqueAyaPrefixes;
+    }
+    getPreviousUniqueAyaPrefixes(ayahs, randomIndex, count) {
+        const uniqueAyaPrefixes = [];
+        let currentIndex = randomIndex;
+        for (let i = 1; i <= count; i++) {
+            currentIndex = this.getPreviousUniqueAyaPrefix(ayahs, currentIndex);
+            uniqueAyaPrefixes.push(ayahs[currentIndex]);
+        }
+        return uniqueAyaPrefixes;
+    }
+    getNextUniqueAyaSuffix(ayahs, randomIndex) {
+        let nextIndex = this.getNextAyah(ayahs, randomIndex);
+        while (ayahs[nextIndex].suffix === ayahs[randomIndex].suffix) {
+            nextIndex = this.getNextAyah(ayahs, nextIndex);
+        }
+        return nextIndex;
+    }
+    getPreviousUniqueAyaSuffix(ayahs, randomIndex) {
+        let previousIndex = this.getPreviousAyah(ayahs, randomIndex);
+        while (ayahs[previousIndex].suffix === ayahs[randomIndex].suffix) {
+            previousIndex = this.getPreviousAyah(ayahs, previousIndex);
+        }
+        return previousIndex;
+    }
+    getNextUniqueAyaSuffixes(ayahs, randomIndex, count) {
+        const uniqueAyaSuffixes = [];
+        let currentIndex = randomIndex;
+        for (let i = 1; i <= count; i++) {
+            currentIndex = this.getNextUniqueAyaSuffix(ayahs, currentIndex);
+            uniqueAyaSuffixes.push(ayahs[currentIndex]);
+        }
+        return uniqueAyaSuffixes;
+    }
+    getPreviousUniqueAyaSuffixes(ayahs, randomIndex, count) {
+        const uniqueAyaSuffixes = [];
+        let currentIndex = randomIndex;
+        for (let i = 1; i <= count; i++) {
+            currentIndex = this.getPreviousUniqueAyaSuffix(ayahs, currentIndex);
+            uniqueAyaSuffixes.push(ayahs[currentIndex]);
+        }
+        return uniqueAyaSuffixes;
+    }
     formatAyahText(ayahText) {
         const words = ayahText.split(' ');
         return words.length > 5 ? words.slice(0, 5).join(' ') + ' ...' : ayahText;

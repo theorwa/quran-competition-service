@@ -31,6 +31,8 @@ class CSVDataLoader {
                 id: row.id,
                 pageNumber: Number(row.pageNumber),
                 surahName: row.surahName,
+                prefix: this.getPrefix(row.ayahText),
+                suffix: this.getSuffix(row.ayahText),
             });
         })
             .on('end', () => {
@@ -40,6 +42,14 @@ class CSVDataLoader {
             .on('error', (error) => {
             console.error('Error loading CSV file:', error);
         });
+    }
+    getPrefix(ayahText, wordLimit = 4) {
+        const words = ayahText.split(' ');
+        return words.length > wordLimit ? words.slice(0, wordLimit).join(' ') + ' ...' : ayahText;
+    }
+    getSuffix(ayahText, wordLimit = 4) {
+        const words = ayahText.split(' ');
+        return words.length > wordLimit ? '... ' + words.slice(-wordLimit).join(' ') : ayahText;
     }
     isDataLoaded() {
         return this.dataLoaded;

@@ -3,6 +3,8 @@ import path from 'path';
 import csvParser from 'csv-parser';
 
 export interface Ayah {
+    prefix: string;
+    suffix: string;
     surahNumber: number;
     surahAyahNumber: number;
     ayahText: string;
@@ -39,6 +41,8 @@ export class CSVDataLoader {
                     id: row.id,
                     pageNumber: Number(row.pageNumber),
                     surahName: row.surahName,
+                    prefix: this.getPrefix(row.ayahText),
+                    suffix: this.getSuffix(row.ayahText),
                 });
             })
             .on('end', () => {
@@ -48,6 +52,16 @@ export class CSVDataLoader {
             .on('error', (error) => {
                 console.error('Error loading CSV file:', error);
             });
+    }
+
+    private getPrefix(ayahText: string, wordLimit: number = 4): string {
+        const words = ayahText.split(' ');
+        return words.length > wordLimit ? words.slice(0, wordLimit).join(' ') + ' ...' : ayahText;
+    }
+
+    private getSuffix(ayahText: string, wordLimit: number = 4): string {
+        const words = ayahText.split(' ');
+        return words.length > wordLimit ? '... ' + words.slice(-wordLimit).join(' ') : ayahText;
     }
 
     public isDataLoaded(): boolean {

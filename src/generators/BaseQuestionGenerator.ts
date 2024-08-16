@@ -58,6 +58,110 @@ export abstract class BaseQuestionGenerator extends QuestionGenerator {
         return ayahs;
     }
 
+    protected getNextAyah(ayahs: Ayah[], randomIndex: number): number {
+        return (randomIndex + 1) % ayahs.length;
+    }
+
+    protected getPreviousAyah(ayahs: Ayah[], randomIndex: number): number {
+        return (randomIndex - 1 + ayahs.length) % ayahs.length;
+    }
+
+    protected getNextAyahs(ayahs: Ayah[], randomIndex: number, count: number): Ayah[] {
+        const nextAyahs = [];
+        for (let i = 1; i <= count; i++) {
+            nextAyahs.push(ayahs[this.getNextAyah(ayahs, randomIndex + i)]);
+        }
+        return nextAyahs;
+    }
+
+    protected getPreviousAyahs(ayahs: Ayah[], randomIndex: number, count: number): Ayah[] {
+        const previousAyahs = [];
+        for (let i = 1; i <= count; i++) {
+            previousAyahs.push(ayahs[this.getPreviousAyah(ayahs, randomIndex - i)]);
+        }
+        return previousAyahs;
+    }
+
+    protected getNextUniqueAyaPrefix(ayahs: Ayah[], randomIndex: number): number {
+        let nextIndex = this.getNextAyah(ayahs, randomIndex);
+        while (ayahs[nextIndex].prefix === ayahs[randomIndex].prefix) {
+            nextIndex = this.getNextAyah(ayahs, nextIndex);
+        }
+        return nextIndex;
+    }
+
+    protected getPreviousUniqueAyaPrefix(ayahs: Ayah[], randomIndex: number): number {
+        let previousIndex = this.getPreviousAyah(ayahs, randomIndex);
+        while (ayahs[previousIndex].prefix === ayahs[randomIndex].prefix) {
+            previousIndex = this.getPreviousAyah(ayahs, previousIndex);
+        }
+        return previousIndex;
+    }
+
+    protected getNextUniqueAyaPrefixes(ayahs: Ayah[], randomIndex: number, count: number): Ayah[] {
+        const uniqueAyaPrefixes = [];
+        let currentIndex = randomIndex;
+
+        for (let i = 1; i <= count; i++) {
+            currentIndex = this.getNextUniqueAyaPrefix(ayahs, currentIndex);
+            uniqueAyaPrefixes.push(ayahs[currentIndex]);
+        }
+
+        return uniqueAyaPrefixes;
+    }
+
+    protected getPreviousUniqueAyaPrefixes(ayahs: Ayah[], randomIndex: number, count: number): Ayah[] {
+        const uniqueAyaPrefixes = [];
+        let currentIndex = randomIndex;
+
+        for (let i = 1; i <= count; i++) {
+            currentIndex = this.getPreviousUniqueAyaPrefix(ayahs, currentIndex);
+            uniqueAyaPrefixes.push(ayahs[currentIndex]);
+        }
+
+        return uniqueAyaPrefixes;
+    }
+
+    protected getNextUniqueAyaSuffix(ayahs: Ayah[], randomIndex: number): number {
+        let nextIndex = this.getNextAyah(ayahs, randomIndex);
+        while (ayahs[nextIndex].suffix === ayahs[randomIndex].suffix) {
+            nextIndex = this.getNextAyah(ayahs, nextIndex);
+        }
+        return nextIndex;
+    }
+
+    protected getPreviousUniqueAyaSuffix(ayahs: Ayah[], randomIndex: number): number {
+        let previousIndex = this.getPreviousAyah(ayahs, randomIndex);
+        while (ayahs[previousIndex].suffix === ayahs[randomIndex].suffix) {
+            previousIndex = this.getPreviousAyah(ayahs, previousIndex);
+        }
+        return previousIndex;
+    }
+
+    protected getNextUniqueAyaSuffixes(ayahs: Ayah[], randomIndex: number, count: number): Ayah[] {
+        const uniqueAyaSuffixes = [];
+        let currentIndex = randomIndex;
+
+        for (let i = 1; i <= count; i++) {
+            currentIndex = this.getNextUniqueAyaSuffix(ayahs, currentIndex);
+            uniqueAyaSuffixes.push(ayahs[currentIndex]);
+        }
+
+        return uniqueAyaSuffixes;
+    }
+
+    protected getPreviousUniqueAyaSuffixes(ayahs: Ayah[], randomIndex: number, count: number): Ayah[] {
+        const uniqueAyaSuffixes = [];
+        let currentIndex = randomIndex;
+
+        for (let i = 1; i <= count; i++) {
+            currentIndex = this.getPreviousUniqueAyaSuffix(ayahs, currentIndex);
+            uniqueAyaSuffixes.push(ayahs[currentIndex]);
+        }
+
+        return uniqueAyaSuffixes;
+    }
+
     protected formatAyahText(ayahText: string): string {
         const words = ayahText.split(' ');
         return words.length > 5 ? words.slice(0, 5).join(' ') + ' ...' : ayahText;
