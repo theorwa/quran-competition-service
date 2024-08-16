@@ -8,11 +8,13 @@ export class NextAyahGenerator extends BaseQuestionGenerator {
     protected generateQuestion(startPage: number, endPage: number): Question {
         let ayahs = this.expandPageRange(startPage, endPage, 6);
         const randomIndex = Math.floor(Math.random() * Math.max(ayahs.length - 1, 1));
-        const nextPrefixes = this.getNextUniqueAyaPrefixes(ayahs, randomIndex, 5);
-        if (!ayahs[randomIndex] || nextPrefixes.length < 5) {
+        const nextAyahIndex = this.getNextAyah(ayahs, randomIndex);
+        const nextPrefixes = this.getNextUniqueAyaPrefixes(ayahs, nextAyahIndex, 4);
+        if (!nextPrefixes || nextPrefixes.length < 4) {
             throw new Error('Failed to generate a valid question.');
         }
-        const correctOption = nextPrefixes[0];
+        const correctOption = ayahs[nextAyahIndex].prefix;
+        nextPrefixes.push(ayahs[nextAyahIndex].prefix);
         const shuffledOptions = this.shuffleArray(nextPrefixes);
         return {
             question: NextAyahGenerator.QUESTION_TEXT,
