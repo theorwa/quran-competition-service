@@ -5,7 +5,6 @@ import { PrefixPreviousAyahGenerator } from './types/PrefixPreviousAyahGenerator
 import {SuffixAyahGenerator} from "./types/SuffixAyahGenerator";
 import {PageNumberGenerator} from "./types/PageNumberGenerator";
 import {AyatPageCountGenerator} from "./types/AyatPageCountGenerator";
-import {FirstAyahInPageGenerator} from "./types/FirstAyahInPageGenerator";
 import {SuffixPreviousAyahGenerator} from "./types/SuffixPreviousAyahGenerator";
 
 export class QuestionGeneratorFactory {
