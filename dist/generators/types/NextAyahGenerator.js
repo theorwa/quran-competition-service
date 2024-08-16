@@ -10,8 +10,8 @@ class NextAyahGenerator extends BaseQuestionGenerator_1.BaseQuestionGenerator {
         if (!ayahs[randomIndex] || nextPrefixes.length < 5) {
             throw new Error('Failed to generate a valid question.');
         }
-        const correctOption = nextPrefixes[0].ayahText;
-        const shuffledOptions = this.shuffleArray(nextPrefixes.map((option) => option.ayahText));
+        const correctOption = nextPrefixes[0];
+        const shuffledOptions = this.shuffleArray(nextPrefixes);
         return {
             question: NextAyahGenerator.QUESTION_TEXT,
             ayah: ayahs[randomIndex].ayahText,

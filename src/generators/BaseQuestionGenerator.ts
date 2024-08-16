@@ -98,7 +98,7 @@ export abstract class BaseQuestionGenerator extends QuestionGenerator {
         return previousIndex;
     }
 
-    protected getNextUniqueAyaPrefixes(ayahs: Ayah[], randomIndex: number, count: number): Ayah[] {
+    protected getNextUniqueAyaPrefixes(ayahs: Ayah[], randomIndex: number, count: number): string[] {
         const uniqueAyaPrefixes = [];
         let currentIndex = randomIndex;
 

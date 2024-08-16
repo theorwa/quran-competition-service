@@ -85,7 +85,7 @@ class BaseQuestionGenerator extends QuestionGenerator_1.QuestionGenerator {
         let currentIndex = randomIndex;
         for (let i = 1; i <= count; i++) {
             currentIndex = this.getNextUniqueAyaPrefix(ayahs, currentIndex);
-            uniqueAyaPrefixes.push(ayahs[currentIndex]);
+            uniqueAyaPrefixes.push(ayahs[currentIndex].prefix);
         }
         return uniqueAyaPrefixes;
     }
