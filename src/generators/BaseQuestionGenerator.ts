@@ -104,7 +104,7 @@ export abstract class BaseQuestionGenerator extends QuestionGenerator {
 
         for (let i = 1; i <= count; i++) {
             currentIndex = this.getNextUniqueAyaPrefix(ayahs, currentIndex);
-            uniqueAyaPrefixes.push(ayahs[currentIndex]);
+            uniqueAyaPrefixes.push(ayahs[currentIndex].prefix);
         }
 
         return uniqueAyaPrefixes;
