@@ -8,29 +8,20 @@ export class PreviousAyahGenerator extends BaseQuestionGenerator {
         let ayahs = this.expandPageRange(startPage, endPage, 6);
 
         const randomIndex = Math.floor(Math.random() * Math.max(ayahs.length - 1, 1)) + 5;
-        const ayah = ayahs[randomIndex];
-        let previousAyahs = ayahs.slice(Math.max(randomIndex - 5, 0), randomIndex);
-
-        if (previousAyahs.length < 5) {
-            const additionalAyahs = this.getRandomOptions(ayahs, previousAyahs, 5 - previousAyahs.length);
-            previousAyahs = additionalAyahs.concat(previousAyahs);
-        }
-
-        if (!ayah || !previousAyahs[previousAyahs.length - 1]) {
+        const previousAyahIndex = this.getPreviousAyah(ayahs, randomIndex);
+        const previousSuffixes = this.getPreviousUniqueAyaSuffixes(ayahs, previousAyahIndex, 4);
+        if (!previousSuffixes || previousSuffixes.length < 4) {
             throw new Error('Failed to generate a valid question.');
         }
-
-        // The last ayah in previousAyahs should be the correct one
-        const correctAyah = previousAyahs[previousAyahs.length - 1];
-
-        const shuffledOptions = this.shuffleArray(previousAyahs);
-
+        const correctOption = ayahs[previousAyahIndex].suffix;
+        previousSuffixes.push(ayahs[previousAyahIndex].suffix);
+        const shuffledOptions = this.shuffleArray(previousSuffixes);
         return {
             question: PreviousAyahGenerator.QUESTION_TEXT,
-            ayah: ayah.ayahText,
-            ayahNumber: `${ayah.surahName}:${ayah.surahAyahNumber}`,
-            options: shuffledOptions.map((option) => this.formatAyahText(option.ayahText)),
-            correct: shuffledOptions.findIndex(option => option === correctAyah),
+            ayah: ayahs[randomIndex].ayahText,
+            ayahNumber: `${ayahs[randomIndex].surahName}:${ayahs[randomIndex].surahAyahNumber}`,
+            options: shuffledOptions,
+            correct: shuffledOptions.findIndex(option => option === correctOption),
         };
     }
 

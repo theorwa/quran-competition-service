@@ -126,7 +126,7 @@ class BaseQuestionGenerator extends QuestionGenerator_1.QuestionGenerator {
         let currentIndex = randomIndex;
         for (let i = 1; i <= count; i++) {
             currentIndex = this.getPreviousUniqueAyaSuffix(ayahs, currentIndex);
-            uniqueAyaSuffixes.push(ayahs[currentIndex]);
+            uniqueAyaSuffixes.push(ayahs[currentIndex].suffix);
         }
         return uniqueAyaSuffixes;
     }

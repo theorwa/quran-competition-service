@@ -150,13 +150,13 @@ export abstract class BaseQuestionGenerator extends QuestionGenerator {
         return uniqueAyaSuffixes;
     }
 
-    protected getPreviousUniqueAyaSuffixes(ayahs: Ayah[], randomIndex: number, count: number): Ayah[] {
+    protected getPreviousUniqueAyaSuffixes(ayahs: Ayah[], randomIndex: number, count: number): string[] {
         const uniqueAyaSuffixes = [];
         let currentIndex = randomIndex;
 
         for (let i = 1; i <= count; i++) {
             currentIndex = this.getPreviousUniqueAyaSuffix(ayahs, currentIndex);
-            uniqueAyaSuffixes.push(ayahs[currentIndex]);
+            uniqueAyaSuffixes.push(ayahs[currentIndex].suffix);
         }
 
         return uniqueAyaSuffixes;
