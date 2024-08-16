@@ -8,13 +8,11 @@ export class SuffixPreviousAyahGenerator extends BaseQuestionGenerator {
         let ayahs = this.expandPageRange(startPage, endPage, 6);
 
         const randomIndex = Math.floor(Math.random() * Math.max(ayahs.length - 1, 1)) + 5;
-        const previousAyahIndex = this.getPreviousAyah(ayahs, randomIndex);
-        const previousSuffixes = this.getPreviousUniqueAyaSuffixes(ayahs, previousAyahIndex, 4);
-        if (!previousSuffixes || previousSuffixes.length < 4) {
+        const previousSuffixes = this.getPreviousUniqueAyaSuffixes(ayahs, randomIndex, 5);
+        if (!previousSuffixes || previousSuffixes.length < 5) {
             throw new Error('Failed to generate a valid question.');
         }
-        const correctOption = ayahs[previousAyahIndex].suffix;
-        previousSuffixes.push(ayahs[previousAyahIndex].suffix);
+        const correctOption = previousSuffixes[0];
         const shuffledOptions = this.shuffleArray(previousSuffixes);
         return {
             question: SuffixPreviousAyahGenerator.QUESTION_TEXT,
