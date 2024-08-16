@@ -2,7 +2,7 @@ import { BaseQuestionGenerator } from '../BaseQuestionGenerator';
 import { Question } from '../../models/Question';
 
 export class PrefixPreviousAyahGenerator extends BaseQuestionGenerator {
-    public static readonly QUESTION_TEXT = 'ما هي الآية السابقة؟';
+    public static readonly QUESTION_TEXT = 'ما هي بداية الآية السابقة؟';
 
     protected generateQuestion(startPage: number, endPage: number): Question {
         let ayahs = this.expandPageRange(startPage, endPage, 6);

@@ -2,7 +2,7 @@ import { BaseQuestionGenerator } from '../BaseQuestionGenerator';
 import { Question } from '../../models/Question';
 
 export class SuffixAyahGenerator extends BaseQuestionGenerator {
-    public static readonly QUESTION_TEXT = 'ما هي خاتمة الآية؟';
+    public static readonly QUESTION_TEXT = 'ما هي نهاية الآية؟';
 
     protected generateQuestion(startPage: number, endPage: number): Question {
         let ayahs = this.expandPageRange(startPage, endPage, 6);

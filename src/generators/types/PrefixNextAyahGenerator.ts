@@ -3,7 +3,7 @@ import { Question } from '../../models/Question';
 import {Ayah} from "../../utils/CSVDataLoader";
 
 export class PrefixNextAyahGenerator extends BaseQuestionGenerator {
-    public static readonly QUESTION_TEXT = 'ما هي الآية التالية؟';
+    public static readonly QUESTION_TEXT = 'ما هي بداية الآية التالية؟';
 
     protected generateQuestion(startPage: number, endPage: number): Question {
         let ayahs = this.expandPageRange(startPage, endPage, 6);
