@@ -70,3 +70,6 @@ heroku-log.txt
 # Build directories
 dist/
 build/
+
+# Ignore IDE project files
+*.iml

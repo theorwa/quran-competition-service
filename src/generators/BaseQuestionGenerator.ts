@@ -14,8 +14,8 @@ export abstract class BaseQuestionGenerator extends QuestionGenerator {
         let question: Question | null = null;
 
         const filteredAyahs = spec
-            ? this.dataLoader.getFilteredData(spec)
-            : this.dataLoader.getAllData();
+            ? this.dataLoader.getFilteredAyahs(spec)
+            : this.dataLoader.getAllAyahs();
 
         if (ayahIndex !== null && (ayahIndex >= filteredAyahs.length || ayahIndex < 0)) {
             ayahIndex = null;

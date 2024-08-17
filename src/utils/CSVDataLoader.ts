@@ -18,12 +18,13 @@ export interface Ayah {
     rubNumber: number;
     prefix: string;
     suffix: string;
+    words: string[];
 }
 
 export class CSVDataLoader {
     private static instance: CSVDataLoader;
-    private data: Ayah[] = [];
-    private dataLoaded: boolean = false;
+    private ayahs: Ayah[] = [];
+    private isLoaded: boolean = false;
 
     private constructor() {
         this.loadData();
@@ -37,12 +38,11 @@ export class CSVDataLoader {
     }
 
     private loadData(): void {
-        // read the CSV file path from the env variable
         const filePath = path.join(__dirname, '../../data/quran_v2.csv');
         fs.createReadStream(filePath)
             .pipe(csvParser())
             .on('data', (row) => {
-                this.data.push({
+                this.ayahs.push({
                     id: row.id,
                     globalAyahNumber: Number(row.globalAyahNumber),
                     surahNumber: Number(row.surahNumber),
@@ -57,10 +57,11 @@ export class CSVDataLoader {
                     rubNumber: Number(row.rubNumber),
                     prefix: this.getPrefix(row.ayahText),
                     suffix: this.getSuffix(row.ayahText),
+                    words: row.ayahText.split(' ')
                 });
             })
             .on('end', () => {
-                this.dataLoaded = true;
+                this.isLoaded = true;
                 console.log('CSV file successfully loaded');
             })
             .on('error', (error) => {
@@ -79,28 +80,33 @@ export class CSVDataLoader {
     }
 
     public isDataLoaded(): boolean {
-        return this.dataLoaded;
+        return this.isLoaded;
     }
 
     public getDataByPageRange(startPage: number, endPage: number): Ayah[] {
-        if (!this.dataLoaded) {
+        if (!this.isLoaded) {
             throw new Error('CSV data is not loaded yet.');
         }
-        return this.data.filter(
+        return this.ayahs.filter(
             (ayah) => ayah.pageNumber >= startPage && ayah.pageNumber <= endPage && ayah.surahAyahNumber >= 1
         );
     }
 
-    public getFilteredData(specification: ISpecification<Ayah>): Ayah[] {
-        const ayahs = this.data;
+    public getFilteredAyahs(specification: ISpecification<Ayah>): Ayah[] {
+        const ayahs = this.ayahs;
         return ayahs.filter(ayah => specification.isSatisfiedBy(ayah));
     }
 
-    public getAllData(): Ayah[] {
-        if (!this.dataLoaded) {
-            throw new Error('CSV data is not loaded yet.');
-        }
-        return this.data;
+    public getAllAyahs(): Ayah[] {
+        return this.ayahs;
+    }
+
+    public getFilteredWords(ayahs: Ayah[]): string[] {
+        return ayahs.flatMap(ayah => ayah.words);
+    }
+
+    public getAllWords(): string[] {
+        return this.ayahs.flatMap(ayah => ayah.words);
     }
 
 }
