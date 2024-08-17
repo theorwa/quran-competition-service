@@ -5,8 +5,8 @@ import {Ayah} from "../../utils/CSVDataLoader";
 export class PageNumberGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هو رقم الصفحة؟';
 
-    protected generateQuestion(filteredAyahs: Ayah[], ayahIndex: number | null): Question {
-        const randomIndex = ayahIndex !== null ? ayahIndex : Math.floor(Math.random() * filteredAyahs.length);
+    protected generateQuestion(filteredAyahs: Ayah[], currentIndex: number | null): Question {
+        const randomIndex = currentIndex !== null ? currentIndex : Math.floor(Math.random() * filteredAyahs.length);
         const ayah = filteredAyahs[randomIndex];
 
         if (!ayah) {

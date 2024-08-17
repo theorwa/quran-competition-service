@@ -5,10 +5,10 @@ import {Ayah} from "../../utils/CSVDataLoader";
 export class SuffixAyahGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هي نهاية الآية؟';
 
-    protected generateQuestion(filteredAyahs: Ayah[], ayahIndex: number | null): Question {
-        const randomIndex = ayahIndex !== null ? ayahIndex : Math.floor(Math.random() * Math.max(filteredAyahs.length - 1, 1));
-        const previousAyahIndex = this.getPreviousAyah(filteredAyahs, randomIndex);
-        const nextSuffixes = this.getNextUniqueAyaSuffixes(filteredAyahs, previousAyahIndex, 5);
+    protected generateQuestion(filteredAyahs: Ayah[], currentIndex: number | null): Question {
+        const randomIndex = currentIndex !== null ? currentIndex : Math.floor(Math.random() * Math.max(filteredAyahs.length - 1, 1));
+        const previouscurrentIndex = this.getPreviousAyah(filteredAyahs, randomIndex);
+        const nextSuffixes = this.getNextUniqueAyaSuffixes(filteredAyahs, previouscurrentIndex, 5);
         if (!nextSuffixes || nextSuffixes.length < 5) {
             throw new Error('Failed to generate a valid question.');
         }
