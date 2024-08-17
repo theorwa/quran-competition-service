@@ -2,24 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import csvParser from 'csv-parser';
 import {ISpecification} from "../specifications/ISpecification";
-
-export interface Ayah {
-    id: string;
-    globalAyahNumber: number;
-    surahNumber: number;
-    surahName: string;
-    surahAyahNumber: number;
-    ayahText: string;
-    pageNumber: number;
-    pageAyatCount: number;
-    firstAyahInPage: boolean;
-    juzNumber: number;
-    hizbNumber: number;
-    rubNumber: number;
-    prefix: string;
-    suffix: string;
-    words: string[];
-}
+import {Ayah} from "../models/Ayah";
 
 export class CSVDataLoader {
     private static instance: CSVDataLoader;
@@ -42,23 +25,7 @@ export class CSVDataLoader {
         fs.createReadStream(filePath)
             .pipe(csvParser())
             .on('data', (row) => {
-                this.ayahs.push({
-                    id: row.id,
-                    globalAyahNumber: Number(row.globalAyahNumber),
-                    surahNumber: Number(row.surahNumber),
-                    surahName: row.surahName,
-                    surahAyahNumber: Number(row.surahAyahNumber),
-                    ayahText: row.ayahText,
-                    pageNumber: Number(row.pageNumber),
-                    pageAyatCount: Number(row.pageAyatCount),
-                    firstAyahInPage: row.firstAyahInPage === '1',
-                    juzNumber: Number(row.juzNumber),
-                    hizbNumber: Number(row.hizbNumber),
-                    rubNumber: Number(row.rubNumber),
-                    prefix: this.getPrefix(row.ayahText),
-                    suffix: this.getSuffix(row.ayahText),
-                    words: row.ayahText.split(' ')
-                });
+                this.ayahs.push(new Ayah(row));
             })
             .on('end', () => {
                 this.isLoaded = true;
@@ -93,20 +60,18 @@ export class CSVDataLoader {
     }
 
     public getFilteredAyahs(specification: ISpecification<Ayah>): Ayah[] {
-        const ayahs = this.ayahs;
-        return ayahs.filter(ayah => specification.isSatisfiedBy(ayah));
-    }
-
-    public getAllAyahs(): Ayah[] {
+        if (specification) {
+            return this.ayahs.filter((ayah) => specification.isSatisfiedBy(ayah));
+        }
         return this.ayahs;
     }
 
     public getFilteredWords(ayahs: Ayah[]): string[] {
-        return ayahs.flatMap(ayah => ayah.words);
+        return ayahs.flatMap(ayah => ayah.getWords());
     }
 
     public getAllWords(): string[] {
-        return this.ayahs.flatMap(ayah => ayah.words);
+        return this.ayahs.flatMap(ayah => ayah.getWords());
     }
 
 }

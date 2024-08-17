@@ -1,26 +1,19 @@
 import { QuestionGenerator } from './QuestionGenerator';
-import { Ayah } from '../utils/CSVDataLoader';
 import { Question } from '../models/Question';
 import {ISpecification} from "../specifications/ISpecification";
+import {FilteredAyahs} from "../models/FilteredAyahs";
+import {Ayah} from "../models/Ayah";
 
 export abstract class BaseQuestionGenerator extends QuestionGenerator {
 
     private static readonly MAX_RETRIES = 3;
 
-    protected abstract generateQuestion(filteredAyahs: Ayah[], currentIndex: number | null): Question;
+    protected abstract generateQuestion(filteredAyahs: FilteredAyahs, currentIndex: number): Question;
 
-    public generate(spec: ISpecification<Ayah>, currentIndex: number | null): Question {
+    public generate(spec: ISpecification<Ayah>, currentIndex: number): Question {
         let attempts = 0;
         let question: Question | null = null;
-
-        const filteredAyahs = spec
-            ? this.dataLoader.getFilteredAyahs(spec)
-            : this.dataLoader.getAllAyahs();
-
-        if (currentIndex !== null && (currentIndex >= filteredAyahs.length || currentIndex < 0)) {
-            currentIndex = null;
-        }
-
+        const filteredAyahs: FilteredAyahs = new FilteredAyahs(this.dataLoader.getFilteredAyahs(spec));
         while (attempts < BaseQuestionGenerator.MAX_RETRIES && !question) {
             try {
                 question = this.generateQuestion(filteredAyahs, currentIndex);
@@ -53,81 +46,5 @@ export abstract class BaseQuestionGenerator extends QuestionGenerator {
         }
 
         return ayahs;
-    }
-
-    protected getNextAyah(ayahs: Ayah[], randomIndex: number): number {
-        return (randomIndex + 1) % ayahs.length;
-    }
-
-    protected getPreviousAyah(ayahs: Ayah[], randomIndex: number): number {
-        return (randomIndex - 1 + ayahs.length) % ayahs.length;
-    }
-
-    protected getNextAyahs(ayahs: Ayah[], randomIndex: number, count: number): Ayah[] {
-        const nextAyahs = [];
-        for (let i = 1; i <= count; i++) {
-            nextAyahs.push(ayahs[this.getNextAyah(ayahs, randomIndex + i)]);
-        }
-        return nextAyahs;
-    }
-
-    protected getPreviousAyahs(ayahs: Ayah[], randomIndex: number, count: number): Ayah[] {
-        const previousAyahs = [];
-        for (let i = 1; i <= count; i++) {
-            previousAyahs.push(ayahs[this.getPreviousAyah(ayahs, randomIndex - i)]);
-        }
-        return previousAyahs;
-    }
-
-    protected getNextUniqueAyaPrefixes(ayahs: Ayah[], randomIndex: number, count: number): string[] {
-        const uniqueAyaPrefixes: string[] = [];
-        let currentIndex = randomIndex;
-        while (uniqueAyaPrefixes.length < count) {
-            const nextIndex = this.getNextAyah(ayahs, currentIndex);
-            if (!uniqueAyaPrefixes.includes(ayahs[nextIndex].prefix)) {
-                uniqueAyaPrefixes.push(ayahs[nextIndex].prefix);
-            }
-            currentIndex = nextIndex;
-        }
-        return uniqueAyaPrefixes;
-    }
-
-    protected getPreviousUniqueAyaPrefixes(ayahs: Ayah[], randomIndex: number, count: number): string[] {
-        const uniqueAyaPrefixes: string[] = [];
-        let currentIndex = randomIndex;
-        while (uniqueAyaPrefixes.length < count) {
-            const previousIndex = this.getPreviousAyah(ayahs, currentIndex);
-            if (!uniqueAyaPrefixes.includes(ayahs[previousIndex].prefix)) {
-                uniqueAyaPrefixes.push(ayahs[previousIndex].prefix);
-            }
-            currentIndex = previousIndex;
-        }
-        return uniqueAyaPrefixes;
-    }
-
-    protected getNextUniqueAyaSuffixes(ayahs: Ayah[], randomIndex: number, count: number): string[] {
-        const uniqueAyaSuffixes: string[] = [];
-        let currentIndex = randomIndex;
-        while (uniqueAyaSuffixes.length < count) {
-            const nextIndex = this.getNextAyah(ayahs, currentIndex);
-            if (!uniqueAyaSuffixes.includes(ayahs[nextIndex].suffix)) {
-                uniqueAyaSuffixes.push(ayahs[nextIndex].suffix);
-            }
-            currentIndex = nextIndex;
-        }
-        return uniqueAyaSuffixes;
-    }
-
-    protected getPreviousUniqueAyaSuffixes(ayahs: Ayah[], randomIndex: number, count: number): string[] {
-        const uniqueAyaSuffixes: string[] = [];
-        let currentIndex = randomIndex;
-        while (uniqueAyaSuffixes.length < count) {
-            const previousIndex = this.getPreviousAyah(ayahs, currentIndex);
-            if (!uniqueAyaSuffixes.includes(ayahs[previousIndex].suffix)) {
-                uniqueAyaSuffixes.push(ayahs[previousIndex].suffix);
-            }
-            currentIndex = previousIndex;
-        }
-        return uniqueAyaSuffixes;
     }
 }

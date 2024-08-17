@@ -1,14 +1,15 @@
 import { BaseQuestionGenerator } from '../BaseQuestionGenerator';
 import { Question } from '../../models/Question';
-import {Ayah} from "../../utils/CSVDataLoader";
+import {FilteredAyahs} from "../../models/FilteredAyahs";
 
 export class SuffixAyahGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هي نهاية الآية؟';
 
-    protected generateQuestion(filteredAyahs: Ayah[], currentIndex: number | null): Question {
-        const randomIndex = currentIndex !== null ? currentIndex : Math.floor(Math.random() * Math.max(filteredAyahs.length - 1, 1));
-        const previouscurrentIndex = this.getPreviousAyah(filteredAyahs, randomIndex);
-        const nextSuffixes = this.getNextUniqueAyaSuffixes(filteredAyahs, previouscurrentIndex, 5);
+    protected generateQuestion(filteredAyahs: FilteredAyahs, currentIndex: number): Question {
+        const questionAyahIndex = filteredAyahs.getAyahIndex(currentIndex);
+        const questionAyah = filteredAyahs.getAyahByIndex(questionAyahIndex);
+        const previousCurrentIndex = filteredAyahs.getPreviousAyah(questionAyahIndex);
+        const nextSuffixes = filteredAyahs.getNextUniqueAyaSuffixes(previousCurrentIndex, 5);
         if (!nextSuffixes || nextSuffixes.length < 5) {
             throw new Error('Failed to generate a valid question.');
         }
@@ -16,8 +17,8 @@ export class SuffixAyahGenerator extends BaseQuestionGenerator {
         const shuffledOptions = this.shuffleArray(nextSuffixes);
         return {
             question: SuffixAyahGenerator.QUESTION_TEXT,
-            ayah: filteredAyahs[randomIndex].prefix,
-            ayahNumber: `${filteredAyahs[randomIndex].surahName}:${filteredAyahs[randomIndex].surahAyahNumber}`,
+            ayah: questionAyah.getPrefix(),
+            ayahNumber: `${questionAyah.surahName}:${questionAyah.surahAyahNumber}`,
             options: shuffledOptions,
             correct: shuffledOptions.findIndex(option => option === correctOption),
         };

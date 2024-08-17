@@ -1,11 +1,11 @@
 import {BaseQuestionGenerator} from "../BaseQuestionGenerator";
-import {Ayah} from "../../utils/CSVDataLoader";
 import {Question} from "../../models/Question";
+import {FilteredAyahs} from "../../models/FilteredAyahs";
 
 export class NextWordGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هي الكلمة التالية؟';
 
-    protected generateQuestion(filteredAyahs: Ayah[], currentIndex: number | null): Question {
+    protected generateQuestion(filteredAyahs: FilteredAyahs, currentIndex: number): Question {
         // empty
         return {
             question: NextWordGenerator.QUESTION_TEXT,

@@ -8,7 +8,7 @@ import { AllAyahsSpecification } from '../specifications/AllAyahsSpecification';
 export class QuestionController {
     public static generateQuestion(req: Request, res: Response): void {
         const questionType: string = (req.query.question_type as string) || QuestionType.PrefixNextAyah;
-        const currentIndex: number | null = req.query.ayah_index ? Number(req.query.ayah_index) : null;
+        const currentIndex: number = req.query.ayah_index ? Number(req.query.ayah_index) : -1;
 
         const specifications: ISpecification<any>[] = [];
 

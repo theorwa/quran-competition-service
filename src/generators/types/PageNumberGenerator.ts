@@ -1,13 +1,13 @@
 import { BaseQuestionGenerator } from '../BaseQuestionGenerator';
 import { Question } from '../../models/Question';
-import {Ayah} from "../../utils/CSVDataLoader";
+import {FilteredAyahs} from "../../models/FilteredAyahs";
 
 export class PageNumberGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هو رقم الصفحة؟';
 
-    protected generateQuestion(filteredAyahs: Ayah[], currentIndex: number | null): Question {
-        const randomIndex = currentIndex !== null ? currentIndex : Math.floor(Math.random() * filteredAyahs.length);
-        const ayah = filteredAyahs[randomIndex];
+    protected generateQuestion(filteredAyahs: FilteredAyahs, currentIndex: number): Question {
+        const questionAyahIndex = filteredAyahs.getAyahIndex(currentIndex);
+        const ayah = filteredAyahs.getAyahByIndex(questionAyahIndex);
 
         if (!ayah) {
             throw new Error('Failed to generate a valid question.');
@@ -20,12 +20,9 @@ export class PageNumberGenerator extends BaseQuestionGenerator {
         const pageNumbers = new Set<number>();
         pageNumbers.add(correctPageNumber);
 
-        // Generate four other nearby page numbers as distractors
         while (pageNumbers.size < 5) {
-            const randomOffset = Math.floor(Math.random() * 10) - 5; // Range: -5 to +4
+            const randomOffset = Math.floor(Math.random() * 10) - 5;
             const nearbyPage = correctPageNumber + randomOffset;
-
-            // Ensure the nearby page is within valid bounds and not already in the set
             if (nearbyPage > 0 && nearbyPage <= 604 && !pageNumbers.has(nearbyPage)) {
                 pageNumbers.add(nearbyPage);
             }
