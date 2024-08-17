@@ -11,14 +11,6 @@ export class FilteredAyahs {
         this.wordsCount = this.getWords().length;
     }
 
-    public getAyahs(): Ayah[] {
-        return this.ayahs;
-    }
-
-    public getAyahsLength(): number {
-        return this.ayahsCount;
-    }
-
     public getAyahByIndex(index: number): Ayah {
         return this.ayahs[this.getAyahIndex(index)];
     }
@@ -31,10 +23,6 @@ export class FilteredAyahs {
         return index >= 0 && index < this.ayahsCount ? index : this.getRandomAyahIndex();
     }
 
-    public getWords(): string[] {
-        return this.ayahs.flatMap(ayah => ayah.getWords());
-    }
-
     public getNextAyah(randomIndex: number): number {
         return (randomIndex + 1) % this.ayahsCount;
     }
@@ -43,25 +31,9 @@ export class FilteredAyahs {
         return (randomIndex - 1 + this.ayahsCount) % this.ayahsCount;
     }
 
-    public getNextAyahs(randomIndex: number, count: number): Ayah[] {
-        const nextAyahs = [];
-        for (let i = 1; i <= count; i++) {
-            nextAyahs.push(this.ayahs[this.getNextAyah(randomIndex + i)]);
-        }
-        return nextAyahs;
-    }
-
-    public getPreviousAyahs(randomIndex: number, count: number): Ayah[] {
-        const previousAyahs = [];
-        for (let i = 1; i <= count; i++) {
-            previousAyahs.push(this.ayahs[this.getPreviousAyah(randomIndex - i)]);
-        }
-        return previousAyahs;
-    }
-
-    public getNextUniqueAyaPrefixes(randomIndex: number, count: number): string[] {
+    public getNextUniqueAyaPrefixes(index: number, count: number): string[] {
         const uniqueAyaPrefixes: string[] = [];
-        let currentIndex = randomIndex;
+        let currentIndex = index;
         while (uniqueAyaPrefixes.length < count) {
             const nextIndex = this.getNextAyah(currentIndex);
             if (!uniqueAyaPrefixes.includes(this.ayahs[nextIndex].getPrefix())) {
@@ -111,7 +83,46 @@ export class FilteredAyahs {
         return uniqueAyaSuffixes;
     }
 
+    public getWords(): string[] {
+        return this.ayahs.flatMap(ayah => ayah.getWords());
+    }
 
+    public getWordIndex(index: number): number {
+        return index >= 0 && index < this.wordsCount ? index : Math.floor(Math.random() * this.wordsCount);
+    }
+
+    public getWordByIndex(index: number): string {
+        return this.getWords()[this.getWordIndex(index)];
+    }
+
+    public getNextWordIndex(currentIndex: number): number {
+        return (currentIndex + 1) % this.wordsCount;
+    }
+
+    public getNextUniqueWords(randomIndex: number, count: number): string[] {
+        const uniqueWords: string[] = [];
+        let currentIndex = randomIndex;
+        while (uniqueWords.length < count) {
+            const nextIndex = this.getNextWordIndex(currentIndex);
+            if (!uniqueWords.includes(this.getWordByIndex(nextIndex))) {
+                uniqueWords.push(this.getWordByIndex(nextIndex));
+            }
+            currentIndex = nextIndex;
+        }
+        return uniqueWords;
+    }
+
+    public getAyahByWordIndex(index: number): Ayah {
+        let wordIndex = 0;
+        for (const ayah of this.ayahs) {
+            const words = ayah.getWords();
+            if (index >= wordIndex && index < wordIndex + words.length) {
+                return ayah;
+            }
+            wordIndex += words.length;
+        }
+        return this.ayahs[this.getRandomAyahIndex()];
+    }
 
 
 }

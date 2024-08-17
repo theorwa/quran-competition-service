@@ -6,6 +6,7 @@ import {SuffixAyahGenerator} from "./types/SuffixAyahGenerator";
 import {PageNumberGenerator} from "./types/PageNumberGenerator";
 import {AyatPageCountGenerator} from "./types/AyatPageCountGenerator";
 import {SuffixPreviousAyahGenerator} from "./types/SuffixPreviousAyahGenerator";
+import {NextWordGenerator} from "./types/NextWordGenerator";
 
 export class QuestionGeneratorFactory {
     public static createGenerator(type: string): IQuestionGenerator {
@@ -30,6 +31,8 @@ export class QuestionGeneratorFactory {
                 return new AyatPageCountGenerator();
             case QuestionType.SuffixPreviousAyah:
                 return new SuffixPreviousAyahGenerator();
+            case QuestionType.nextWord:
+                return new NextWordGenerator();
             default:
                 return new PrefixNextAyahGenerator();
         }

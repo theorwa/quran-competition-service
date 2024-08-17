@@ -6,13 +6,21 @@ export class NextWordGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هي الكلمة التالية؟';
 
     protected generateQuestion(filteredAyahs: FilteredAyahs, currentIndex: number): Question {
-        // empty
+        const word = filteredAyahs.getWordByIndex(currentIndex);
+        const ayah = filteredAyahs.getAyahByWordIndex(currentIndex);
+        const nextWord = filteredAyahs.getWordByIndex(currentIndex + 1);
+        const nextWords = filteredAyahs.getNextUniqueWords(currentIndex, 4);
+        if (!nextWords || nextWords.length < 4) {
+            throw new Error('Failed to generate a valid question.');
+        }
+        nextWords.push(nextWord);
+        const shuffledOptions = this.shuffleArray(nextWords);
         return {
             question: NextWordGenerator.QUESTION_TEXT,
-            ayah: '',
-            ayahNumber: '',
-            options: [],
-            correct: 0,
+            ayah: word,
+            ayahNumber: `${ayah.surahName}:${ayah.surahAyahNumber}`,
+            options: shuffledOptions,
+            correct: shuffledOptions.findIndex(option => option === nextWord),
         };
     }
 
