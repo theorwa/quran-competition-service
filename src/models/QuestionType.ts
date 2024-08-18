@@ -6,4 +6,5 @@ export enum QuestionType {
     AyatPageCount = 'ayat_page_count',
     SuffixPreviousAyah = 'suffix_previous_ayah',
     nextWord = 'next_word',
+    random = 'random',
 }
