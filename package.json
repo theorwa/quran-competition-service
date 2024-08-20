@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && node swagger.js",
-    "start": "node ./dist/index.js"
+    "build": "tsc",
+    "start": "node swagger.js && node ./dist/index.js"
   },
   "keywords": [],
   "author": "",
