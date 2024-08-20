@@ -5,6 +5,8 @@ import {CSVDataLoader} from "./utils/CSVDataLoader";
 import {waitForDataLoad} from "./utils/WaitForDataLoad";
 import questionRoute from "./routes/QuestionRoute";
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './swagger_output.json';
 
 const app = express();
 app.use(cors());
@@ -12,6 +14,7 @@ app.use(cors());
 app.use(compression());
 app.use(express.json());
 app.use(questionRoute);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const dataLoader = CSVDataLoader.getInstance();
 waitForDataLoad(dataLoader).then(() => {
