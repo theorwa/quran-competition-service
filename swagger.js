@@ -5,7 +5,7 @@ const doc = {
         title: 'Quran Competition Service',
         description: 'API documentation for the Quran Competition Service',
     },
-    host: 'localhost:3000'
+    host: process.env.HEROKU_APP_URL || 'localhost:3000',
 };
 
 const outputFile = './dist/swagger_output.json';
