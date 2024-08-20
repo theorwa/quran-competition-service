@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prebuild": "ts-node src/swagger.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "swagger": "ts-node src/swagger.ts",
-    "all": "npm run build && npm run swagger && npm start"
+    "swagger": "ts-node src/swagger.ts"
   },
   "keywords": [],
   "author": "",
