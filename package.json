@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prebuild": "node swagger.js",
-    "build": "tsc",
+    "build": "tsc && node swagger.js",
     "start": "node ./dist/index.js"
   },
   "keywords": [],
