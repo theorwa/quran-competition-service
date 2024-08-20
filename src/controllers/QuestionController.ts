@@ -9,6 +9,12 @@ export class QuestionController {
     public static generateQuestion(req: Request, res: Response): void {
         const questionType: string = (req.query.question_type as string) || QuestionType.random;
         const currentIndex: number = req.query.index ? Number(req.query.index) : -1;
+        const startPage: number = req.query.start_page ? Number(req.query.start_page) : 1;
+        const endPage: number = req.query.end_page ? Number(req.query.end_page) : 604;
+        const pages: number[] = req.query.pages ? (req.query.pages as string).split(',').map(Number) : [];
+        const surah: number = req.query.surah ? Number(req.query.surah) : -1;
+        const juz: number = req.query.juz ? Number(req.query.juz) : -1;
+        const hizb: number = req.query.hizb ? Number(req.query.hizb) : -1;
 
         const specifications: ISpecification<any>[] = [];
 
