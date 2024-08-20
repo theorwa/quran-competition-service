@@ -8,7 +8,13 @@ import questionRoute from "./routes/QuestionRoute";
 import cors from 'cors';
 
 const app = express();
-app.use(cors({ origin: '*' }));
+app.use(cors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type,Authorization',
+    preflightContinue: false,
+    optionsSuccessStatus: 204
+}));
 
 app.use(compression());
 app.use(express.json());
