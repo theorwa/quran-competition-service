@@ -8,7 +8,7 @@ import questionRoute from "./routes/QuestionRoute";
 import cors from 'cors';
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: '*' }));
 
 app.use(compression());
 app.use(express.json());
