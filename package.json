@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prebuild": "ts-node src/swagger.ts",
+    "prebuild": "node swagger.js",
     "build": "tsc",
-    "start": "node dist/index.js",
-    "swagger": "ts-node src/swagger.ts"
+    "start": "node ./dist/index.js"
   },
   "keywords": [],
   "author": "",
