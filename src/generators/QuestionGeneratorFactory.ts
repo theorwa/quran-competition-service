@@ -31,8 +31,6 @@ export class QuestionGeneratorFactory {
                 return new AyatPageCountGenerator();
             case QuestionType.SuffixPreviousAyah:
                 return new SuffixPreviousAyahGenerator();
-            case QuestionType.nextWord:
-                return new NextWordGenerator();
             default:
                 return new PrefixNextAyahGenerator();
         }
