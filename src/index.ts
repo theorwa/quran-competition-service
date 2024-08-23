@@ -25,6 +25,7 @@ const dataLoader = CSVDataLoader.getInstance();
 waitForDataLoad(dataLoader).then(() => {
     app.listen(config.port, () => {
         console.log(`Server running on port ${config.port}`);
+        console.log(`Swagger docs available at: http://${process.env.HEROKU_APP_URL || 'localhost:3000'}/api-docs`);
     });
 }).catch(error => {
     console.error('Failed to load CSV data:', error);
