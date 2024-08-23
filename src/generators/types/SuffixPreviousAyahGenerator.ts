@@ -6,9 +6,11 @@ export class SuffixPreviousAyahGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هي نهاية الآية السابقة؟';
 
     protected generateQuestion(filteredAyahs: FilteredAyahs, currentIndex: number): Question {
-        const questionAyahIndex = filteredAyahs.getAyahIndex(currentIndex);
-        const questionAyah = filteredAyahs.getAyahByIndex(questionAyahIndex);
-        const previousSuffixes = filteredAyahs.getPreviousUniqueAyaSuffixes(questionAyahIndex, 5);
+        if (currentIndex < 1 || currentIndex >= filteredAyahs.getAyahsCount()) {
+            currentIndex = Math.floor(Math.random() * (filteredAyahs.getAyahsCount() - 1)) + 1;
+        }
+        const questionAyah = filteredAyahs.getAyahByIndex(currentIndex);
+        const previousSuffixes = filteredAyahs.getPreviousUniqueAyaSuffixes(currentIndex, 5);
         if (!previousSuffixes || previousSuffixes.length < 5) {
             throw new Error('Failed to generate a valid question.');
         }

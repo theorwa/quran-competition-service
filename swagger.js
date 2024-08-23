@@ -7,7 +7,7 @@ const doc = {
         description: 'API documentation for the Quran Competition Service',
     },
     host: process.env.HEROKU_APP_URL || 'localhost:3000',
-    schemes: ['https'], // Ensure this matches your Heroku URL scheme
+    schemes: ['http'], // Ensure this matches your Heroku URL scheme
 };
 
 

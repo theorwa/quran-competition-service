@@ -6,9 +6,12 @@ export class PrefixNextAyahGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هي بداية الآية التالية؟';
 
     protected generateQuestion(filteredAyahs: FilteredAyahs, currentIndex: number): Question {
-        const questionAyahIndex = filteredAyahs.getAyahIndex(currentIndex);
-        const questionAyah = filteredAyahs.getAyahByIndex(questionAyahIndex);
-        const nextIndex = filteredAyahs.getNextAyah(questionAyahIndex);
+        if (currentIndex < 0 || currentIndex >= filteredAyahs.getAyahsCount() - 1) {
+            currentIndex = Math.floor(Math.random() * (filteredAyahs.getAyahsCount() - 1));
+        }
+        const questionAyah = filteredAyahs.getAyahByIndex(currentIndex);
+        const nextIndex = filteredAyahs.getNextAyah(currentIndex);
+        const MAX_OPTIONS = Math.min(4, filteredAyahs.getAyahsCount() - 1);
         const nextPrefixes = filteredAyahs.getNextUniqueAyaPrefixes(nextIndex, 4);
         if (!nextPrefixes || nextPrefixes.length < 4) {
             throw new Error('Failed to generate a valid question.');

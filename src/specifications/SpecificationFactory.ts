@@ -39,8 +39,8 @@ export class SpecificationFactory {
     }
 
     static createSurahSpecification(query: any): ISpecification<any> | null {
-        if (query.surah_number) {
-            const surahNumbers = (query.surah_number as string).split(',').map(Number);
+        if (query.surah) {
+            const surahNumbers = (query.surah as string).split(',').map(Number);
             const surahSpecs = surahNumbers.map(num => new SurahNumberSpecification(num));
             return surahSpecs.reduce<ISpecification<any>>(
                 (spec1, spec2) => new OrSpecification(spec1, spec2),
@@ -51,8 +51,8 @@ export class SpecificationFactory {
     }
 
     static createJuzSpecification(query: any): ISpecification<any> | null {
-        if (query.juz_number) {
-            const juzNumbers = (query.juz_number as string).split(',').map(Number);
+        if (query.juz) {
+            const juzNumbers = (query.juz as string).split(',').map(Number);
             const juzSpecs = juzNumbers.map(num => new JuzNumberSpecification(num));
             return juzSpecs.reduce<ISpecification<any>>(
                 (spec1, spec2) => new OrSpecification(spec1, spec2),
@@ -63,8 +63,8 @@ export class SpecificationFactory {
     }
 
     static createHizbSpecification(query: any): ISpecification<any> | null {
-        if (query.hizb_number) {
-            const hizbNumbers = (query.hizb_number as string).split(',').map(Number);
+        if (query.hizb) {
+            const hizbNumbers = (query.hizb as string).split(',').map(Number);
             const hizbSpecs = hizbNumbers.map(num => new HizbNumberSpecification(num));
             return hizbSpecs.reduce<ISpecification<any>>(
                 (spec1, spec2) => new OrSpecification(spec1, spec2),

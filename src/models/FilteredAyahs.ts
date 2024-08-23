@@ -11,6 +11,18 @@ export class FilteredAyahs {
         this.wordsCount = this.getWords().length;
     }
 
+    public getAyahs(): Ayah[] {
+        return this.ayahs;
+    }
+
+    public getAyahsCount(): number {
+        return this.ayahsCount;
+    }
+
+    public getWordsCount(): number {
+        return this.wordsCount;
+    }
+
     public getAyahByIndex(index: number): Ayah {
         return this.ayahs[this.getAyahIndex(index)];
     }
@@ -21,6 +33,10 @@ export class FilteredAyahs {
 
     public getAyahIndex(index: number): number {
         return index >= 0 && index < this.ayahsCount ? index : this.getRandomAyahIndex();
+    }
+
+    public validateAyahIndex(index: number): boolean {
+        return index >= 0 && index < this.ayahsCount;
     }
 
     public getNextAyah(randomIndex: number): number {

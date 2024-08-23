@@ -6,13 +6,16 @@ export class PrefixPreviousAyahGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هي بداية الآية السابقة؟';
 
     protected generateQuestion(filteredAyahs: FilteredAyahs, currentIndex: number): Question {
-        const questionAyahIndex = filteredAyahs.getAyahIndex(currentIndex);
-        const questionAyah = filteredAyahs.getAyahByIndex(questionAyahIndex);
-        const previousPrefixes = filteredAyahs.getPreviousUniqueAyaPrefixes(questionAyahIndex, 5);
-        if (!previousPrefixes || previousPrefixes.length < 5) {
+        if (currentIndex < 1 || currentIndex >= filteredAyahs.getAyahsCount()) {
+            currentIndex = Math.floor(Math.random() * (filteredAyahs.getAyahsCount() - 1)) + 1;
+        }
+        const questionAyah = filteredAyahs.getAyahByIndex(currentIndex);
+        const previousPrefixes = filteredAyahs.getPreviousUniqueAyaPrefixes(currentIndex, 4);
+        if (!previousPrefixes || previousPrefixes.length < 4) {
             throw new Error('Failed to generate a valid question.');
         }
         const correctOption = previousPrefixes[0];
+        previousPrefixes.push(questionAyah.getPrefix());
         const shuffledOptions = this.shuffleArray(previousPrefixes);
         return {
             question: PrefixPreviousAyahGenerator.QUESTION_TEXT,
