@@ -10,7 +10,6 @@ const doc = {
     schemes: ['http'], // Ensure this matches your Heroku URL scheme
 };
 
-
 const outputFile = './dist/swagger_output.json';
 const routes = ['./src/routes/QuestionRoute.ts'];
 
