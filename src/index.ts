@@ -6,6 +6,7 @@ import { waitForDataLoad } from "./utils/WaitForDataLoad";
 import { setupSwagger } from './utils/swaggerSetup';
 import questionRoute from "./routes/QuestionRoute";
 import cors from 'cors';
+import timeoutMiddleware from "./middlewares/timeoutMiddleware";
 
 const app = express();
 app.use(cors({
@@ -16,6 +17,7 @@ app.use(cors({
     optionsSuccessStatus: 204
 }));
 
+app.use(timeoutMiddleware);
 app.use(compression());
 app.use(express.json());
 app.use(questionRoute);

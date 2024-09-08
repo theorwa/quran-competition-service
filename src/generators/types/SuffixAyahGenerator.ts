@@ -5,6 +5,10 @@ import {FilteredAyahs} from "../../models/FilteredAyahs";
 export class SuffixAyahGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هي نهاية الآية؟';
 
+    public publicGenerateQuestion(filteredAyahs: FilteredAyahs, currentIndex: number): Question {
+        return this.generateQuestion(filteredAyahs, currentIndex);
+    }
+
     protected generateQuestion(filteredAyahs: FilteredAyahs, currentIndex: number): Question {
         const questionAyahIndex = filteredAyahs.getAyahIndex(currentIndex);
         const questionAyah = filteredAyahs.getAyahByIndex(questionAyahIndex);

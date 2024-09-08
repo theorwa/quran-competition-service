@@ -7,4 +7,5 @@ export enum QuestionType {
     SuffixPreviousAyah = 'suffix_previous_ayah',
     nextWord = 'next_word',
     random = 'random',
+    SardAyah = 'sard_ayah',
 }
