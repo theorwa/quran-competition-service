@@ -1,15 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 import Joi from 'joi';
 import { QuestionType } from '../models/QuestionType';
+import { QURAN_CONSTANTS } from '../types/QuestionGeneratorConfig';
 
 // Simple validation schemas
 const questionQuerySchema = Joi.object({
   question_type: Joi.string().valid(...Object.values(QuestionType)).optional(),
   num_questions: Joi.number().integer().min(1).max(50).optional(),
+  choices: Joi.number().integer().min(QURAN_CONSTANTS.MIN_CHOICES).max(QURAN_CONSTANTS.MAX_CHOICES).optional(),
   sequence: Joi.boolean().optional(),
   index: Joi.number().integer().min(-1).optional(),
-  start_page: Joi.number().integer().min(1).max(604).optional(),
-  end_page: Joi.number().integer().min(1).max(604).optional(),
+  start_page: Joi.number().integer().min(1).max(QURAN_CONSTANTS.TOTAL_PAGES).optional(),
+  end_page: Joi.number().integer().min(1).max(QURAN_CONSTANTS.TOTAL_PAGES).optional(),
   pages: Joi.string().pattern(/^(\d+(-\d+)?)(,\d+(-\d+)?)*$/).optional(),
   surah: Joi.string().pattern(/^\d+(,\d+)*$/).optional(),
   juz: Joi.string().pattern(/^\d+(,\d+)*$/).optional(),
@@ -18,9 +20,10 @@ const questionQuerySchema = Joi.object({
 
 const singleQuestionQuerySchema = Joi.object({
   question_type: Joi.string().valid(...Object.values(QuestionType)).optional(),
+  choices: Joi.number().integer().min(QURAN_CONSTANTS.MIN_CHOICES).max(QURAN_CONSTANTS.MAX_CHOICES).optional(),
   index: Joi.number().integer().min(-1).optional(),
-  start_page: Joi.number().integer().min(1).max(604).optional(),
-  end_page: Joi.number().integer().min(1).max(604).optional(),
+  start_page: Joi.number().integer().min(1).max(QURAN_CONSTANTS.TOTAL_PAGES).optional(),
+  end_page: Joi.number().integer().min(1).max(QURAN_CONSTANTS.TOTAL_PAGES).optional(),
   pages: Joi.string().pattern(/^(\d+(-\d+)?)(,\d+(-\d+)?)*$/).optional(),
   surah: Joi.string().pattern(/^\d+(,\d+)*$/).optional(),
   juz: Joi.string().pattern(/^\d+(,\d+)*$/).optional(),

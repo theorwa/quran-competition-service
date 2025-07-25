@@ -1,17 +1,22 @@
 import { BaseQuestionGenerator } from '../BaseQuestionGenerator';
 import { Question } from '../../models/Question';
 import {FilteredAyahs} from "../../models/FilteredAyahs";
+import { QuestionGeneratorConfig, getConfigWithDefaults } from '../../types/QuestionGeneratorConfig';
 
 export class SuffixPreviousAyahGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هي نهاية الآية السابقة؟';
 
-    protected generateQuestion(filteredAyahs: FilteredAyahs, currentIndex: number): Question {
+    protected generateQuestion(filteredAyahs: FilteredAyahs, config: Required<QuestionGeneratorConfig>): Question {
+        const { currentIndex, choices } = config;
+        let adjustedIndex = currentIndex;
+        
         if (currentIndex < 1 || currentIndex >= filteredAyahs.getAyahsCount()) {
-            currentIndex = Math.floor(Math.random() * (filteredAyahs.getAyahsCount() - 1)) + 1;
+            adjustedIndex = Math.floor(Math.random() * (filteredAyahs.getAyahsCount() - 1)) + 1;
         }
-        const questionAyah = filteredAyahs.getAyahByIndex(currentIndex);
-        const previousSuffixes = filteredAyahs.getPreviousUniqueAyaSuffixes(currentIndex, 5);
-        if (!previousSuffixes || previousSuffixes.length < 5) {
+        
+        const questionAyah = filteredAyahs.getAyahByIndex(adjustedIndex);
+        const previousSuffixes = filteredAyahs.getPreviousUniqueAyaSuffixes(adjustedIndex, choices);
+        if (!previousSuffixes || previousSuffixes.length < choices) {
             throw new Error('Failed to generate a valid question.');
         }
         const correctOption = previousSuffixes[0];

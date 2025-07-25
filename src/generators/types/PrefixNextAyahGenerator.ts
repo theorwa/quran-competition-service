@@ -1,19 +1,24 @@
 import { BaseQuestionGenerator } from '../BaseQuestionGenerator';
 import { Question } from '../../models/Question';
 import {FilteredAyahs} from "../../models/FilteredAyahs";
+import { QuestionGeneratorConfig, getConfigWithDefaults } from '../../types/QuestionGeneratorConfig';
 
 export class PrefixNextAyahGenerator extends BaseQuestionGenerator {
     public static readonly QUESTION_TEXT = 'ما هي بداية الآية التالية؟';
 
-    protected generateQuestion(filteredAyahs: FilteredAyahs, currentIndex: number): Question {
+    protected generateQuestion(filteredAyahs: FilteredAyahs, config: Required<QuestionGeneratorConfig>): Question {
+        const { currentIndex, choices } = config;
+        let adjustedIndex = currentIndex;
+        
         if (currentIndex < 0 || currentIndex >= filteredAyahs.getAyahsCount() - 1) {
-            currentIndex = Math.floor(Math.random() * (filteredAyahs.getAyahsCount() - 1));
+            adjustedIndex = Math.floor(Math.random() * (filteredAyahs.getAyahsCount() - 1));
         }
-        const questionAyah = filteredAyahs.getAyahByIndex(currentIndex);
-        const nextIndex = filteredAyahs.getNextAyah(currentIndex);
-        const MAX_OPTIONS = Math.min(4, filteredAyahs.getAyahsCount() - 1);
-        const nextPrefixes = filteredAyahs.getNextUniqueAyaPrefixes(nextIndex, 4);
-        if (!nextPrefixes || nextPrefixes.length < 4) {
+        
+        const questionAyah = filteredAyahs.getAyahByIndex(adjustedIndex);
+        const nextIndex = filteredAyahs.getNextAyah(adjustedIndex);
+        const MAX_OPTIONS = Math.min(choices - 1, filteredAyahs.getAyahsCount() - 1);
+        const nextPrefixes = filteredAyahs.getNextUniqueAyaPrefixes(nextIndex, MAX_OPTIONS);
+        if (!nextPrefixes || nextPrefixes.length < MAX_OPTIONS) {
             throw new Error('Failed to generate a valid question.');
         }
         const correctOption = filteredAyahs.getAyahByIndex(nextIndex).getPrefix();

@@ -4,7 +4,8 @@ import { QuestionType } from '../models/QuestionType';
 import { SpecificationFactory } from '../specifications/SpecificationFactory';
 import { ISpecification } from '../specifications/ISpecification';
 import { AllAyahsSpecification } from '../specifications/AllAyahsSpecification';
-import {Question} from "../models/Question";  // This will be a new specification
+import {Question} from "../models/Question";
+import { QuestionGeneratorConfig } from '../types/QuestionGeneratorConfig';
 
 export class QuestionController {
 
@@ -48,7 +49,14 @@ export class QuestionController {
             const questions: Question[] = [];
             for (let i = 0; i < numQuestions; i++) {
                 const generator = QuestionGeneratorFactory.createGenerator(questionType);
-                const question = generator.generate(combinedSpecification, currentIndex);
+                
+                // Create configuration object
+                const config: QuestionGeneratorConfig = {
+                    currentIndex: currentIndex,
+                    choices: req.query.choices ? Number(req.query.choices) : 5
+                };
+                
+                const question = generator.generate(combinedSpecification, config);
                 questions.push(question);
                 if (sequence && currentIndex !== -1) {
                     currentIndex++;
@@ -106,7 +114,14 @@ export class QuestionController {
 
         try {
             const generator = QuestionGeneratorFactory.createGenerator(questionType);
-            const question = generator.generate(combinedSpecification, currentIndex);
+            
+            // Create configuration object
+            const config: QuestionGeneratorConfig = {
+                currentIndex: currentIndex,
+                choices: req.query.choices ? Number(req.query.choices) : 5
+            };
+            
+            const question = generator.generate(combinedSpecification, config);
             res.json(question);
         } catch (error) {
             if (error instanceof Error) {
