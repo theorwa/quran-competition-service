@@ -11,7 +11,7 @@ export class QuestionController {
     public static generateQuestions(req: Request, res: Response): void {
         const questionType: string = (req.query.question_type as string) || 'random';
         const numQuestions: number = req.query.num_questions ? Number(req.query.num_questions) : 5;
-        const sequence: boolean = req.query.sequence ? req.query.sequence === 'true' : false;
+        const sequence: boolean = req.query.sequence === 'true';
         let currentIndex: number = req.query.index ? Number(req.query.index) : -1;
         const startPage: number = req.query.start_page ? Number(req.query.start_page) : 1;
         const endPage: number = req.query.end_page ? Number(req.query.end_page) : 604;
