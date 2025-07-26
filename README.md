@@ -5,8 +5,11 @@ A Node.js/TypeScript service for managing Quran competition questions and quizze
 ## 📚 Documentation
 
 - **[📖 Full Documentation](./docs/README.md)** - Complete project documentation
-- **[🚀 Deployment Guide](./docs/deployment/README.md)** - How to deploy and manage the service
-- **[⚡ Heroku CLI Commands](./docs/deployment/heroku-cli-commands.md)** - Essential commands for managing your Heroku apps
+- **[🌍 English Documentation](./docs/en/README.md)** - English documentation index
+- **[🌍 Arabic Documentation](./docs/ar/README.md)** - فهرس التوثيق العربي
+- **[🧠 Engines & Strategies](./docs/en/engines.md)** - Question and Personalization engines
+- **[📊 Learning Strategies](./docs/en/strategies.md)** - Detailed learning algorithms
+- **[🚀 Heroku Deployment](./docs/en/heroku.md)** - Deployment guide
 
 ## 🚀 Quick Start
 
@@ -40,8 +43,17 @@ git push heroku main
 ```
 quran-competition-service/
 ├── docs/                    # 📚 Documentation
-│   ├── README.md           # Documentation index
-│   └── deployment/         # Deployment guides
+│   ├── README.md           # Main documentation index
+│   ├── en/                 # English documentation
+│   │   ├── README.md       # English index
+│   │   ├── engines.md      # Question & Personalization engines
+│   │   ├── strategies.md   # Learning strategies & algorithms
+│   │   └── heroku.md       # Deployment guide
+│   └── ar/                 # Arabic documentation
+│       ├── README.md       # فهرس التوثيق العربي
+│       ├── engines.md      # محركات الأسئلة والتخصيص
+│       ├── strategies.md   # استراتيجيات التعلم والخوارزميات
+│       └── heroku.md       # دليل النشر
 ├── src/                    # 🔧 Source code
 │   ├── controllers/        # API controllers
 │   ├── generators/         # Question generators
@@ -61,12 +73,27 @@ Key environment variables for the service:
 - `NODE_ENV` - Environment (development/production)
 - Database configuration variables (see deployment guide)
 
+## 🧠 Core Features
+
+### Question Engine
+- **Content Processing**: Analyze and process Quran text data
+- **Question Generation**: Create various types of questions (MCQ, fill-in-blank, etc.)
+- **Distraction Strategy**: Implement semantic similarity, misconceptions, and logical alternatives
+- **Quality Assurance**: Ensure questions meet educational standards
+
+### Personalization Engine
+- **User Profiling**: Build and maintain user learning profiles
+- **Study Strategies**: Implement spaced repetition algorithms (SM-2, Leitner, Anki)
+- **Adaptive Learning**: Dynamically adjust question difficulty
+- **Performance Analytics**: Track and optimize learning progress
+
 ## 📖 API Documentation
 
 The service provides a REST API for:
-- Question generation
-- Quiz management
-- Competition features
+- Question generation with distraction strategies
+- Personalized learning with study strategies
+- Quiz management and competition features
+- Performance tracking and analytics
 
 API documentation is available via Swagger when the service is running.
 
