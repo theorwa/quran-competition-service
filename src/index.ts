@@ -5,6 +5,7 @@ import { CSVDataLoader } from "./utils/CSVDataLoader";
 import { waitForDataLoad } from "./utils/WaitForDataLoad";
 import { setupSwagger } from './utils/swaggerSetup';
 import questionRoute from "./routes/QuestionRoute";
+import healthRoute from "./routes/HealthRoute";
 import cors from 'cors';
 import timeoutMiddleware from "./middlewares/timeoutMiddleware";
 
@@ -20,6 +21,7 @@ app.use(cors({
 app.use(timeoutMiddleware);
 app.use(compression());
 app.use(express.json());
+app.use(healthRoute);
 app.use(questionRoute);
 setupSwagger(app);
 
