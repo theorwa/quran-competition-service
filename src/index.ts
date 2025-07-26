@@ -9,6 +9,7 @@ import healthRoute from "./routes/HealthRoute";
 import cors from 'cors';
 import timeoutMiddleware from "./middlewares/timeoutMiddleware";
 import loggingMiddleware from "./middlewares/loggingMiddleware";
+import rateLimitMiddleware from "./middlewares/rateLimitMiddleware";
 
 const app = express();
 app.use(cors({
@@ -21,6 +22,7 @@ app.use(cors({
 
 app.use(timeoutMiddleware);
 app.use(loggingMiddleware);
+app.use(rateLimitMiddleware);
 app.use(compression());
 app.use(express.json());
 app.use(healthRoute);
