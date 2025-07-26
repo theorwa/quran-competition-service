@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import Joi from 'joi';
 import { QuestionType } from '../models/QuestionType';
 import { QURAN_CONSTANTS } from '../types/QuestionGeneratorConfig';
+import { DifficultyLevel } from '../types/DifficultyLevel';
 
 // Simple validation schemas
 const questionQuerySchema = Joi.object({
@@ -15,7 +16,8 @@ const questionQuerySchema = Joi.object({
   pages: Joi.string().pattern(/^(\d+(-\d+)?)(,\d+(-\d+)?)*$/).optional(),
   surah: Joi.string().pattern(/^\d+(,\d+)*$/).optional(),
   juz: Joi.string().pattern(/^\d+(,\d+)*$/).optional(),
-  hizb: Joi.string().pattern(/^\d+(,\d+)*$/).optional()
+  hizb: Joi.string().pattern(/^\d+(,\d+)*$/).optional(),
+  difficulty_level: Joi.string().valid(...Object.values(DifficultyLevel)).optional()
 });
 
 const singleQuestionQuerySchema = Joi.object({
@@ -27,7 +29,8 @@ const singleQuestionQuerySchema = Joi.object({
   pages: Joi.string().pattern(/^(\d+(-\d+)?)(,\d+(-\d+)?)*$/).optional(),
   surah: Joi.string().pattern(/^\d+(,\d+)*$/).optional(),
   juz: Joi.string().pattern(/^\d+(,\d+)*$/).optional(),
-  hizb: Joi.string().pattern(/^\d+(,\d+)*$/).optional()
+  hizb: Joi.string().pattern(/^\d+(,\d+)*$/).optional(),
+  difficulty_level: Joi.string().valid(...Object.values(DifficultyLevel)).optional()
 });
 
 // Simple validation middleware factory

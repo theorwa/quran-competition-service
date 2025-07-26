@@ -5,7 +5,7 @@ import { SpecificationFactory } from '../specifications/SpecificationFactory';
 import { ISpecification } from '../specifications/ISpecification';
 import { AllAyahsSpecification } from '../specifications/AllAyahsSpecification';
 import {Question} from "../models/Question";
-import { QuestionGeneratorConfig } from '../types/QuestionGeneratorConfig';
+import {QuestionGeneratorConfig, DifficultyLevel, DEFAULT_CONFIG} from '../types/QuestionGeneratorConfig';
 
 export class QuestionController {
 
@@ -20,6 +20,7 @@ export class QuestionController {
         const surah: number = req.query.surah ? Number(req.query.surah) : -1;
         const juz: number = req.query.juz ? Number(req.query.juz) : -1;
         const hizb: number = req.query.hizb ? Number(req.query.hizb) : -1;
+        const difficultyLevel: DifficultyLevel = (req.query.difficulty_level as DifficultyLevel) || DEFAULT_CONFIG.difficulty;
 
         const specifications: ISpecification<any>[] = [];
 
@@ -53,7 +54,8 @@ export class QuestionController {
                 // Create configuration object
                 const config: QuestionGeneratorConfig = {
                     currentIndex: currentIndex,
-                    choices: req.query.choices ? Number(req.query.choices) : 5
+                    choices: req.query.choices ? Number(req.query.choices) : 5,
+                    difficulty: difficultyLevel
                 };
                 
                 const question = generator.generate(combinedSpecification, config);
@@ -83,6 +85,7 @@ export class QuestionController {
         const surah: number = req.query.surah ? Number(req.query.surah) : -1;
         const juz: number = req.query.juz ? Number(req.query.juz) : -1;
         const hizb: number = req.query.hizb ? Number(req.query.hizb) : -1;
+        const difficultyLevel: DifficultyLevel = (req.query.difficulty_level as DifficultyLevel) || DEFAULT_CONFIG.difficulty;
 
         const specifications: ISpecification<any>[] = [];
 
@@ -118,7 +121,8 @@ export class QuestionController {
             // Create configuration object
             const config: QuestionGeneratorConfig = {
                 currentIndex: currentIndex,
-                choices: req.query.choices ? Number(req.query.choices) : 5
+                choices: req.query.choices ? Number(req.query.choices) : 5,
+                difficulty: difficultyLevel
             };
             
             const question = generator.generate(combinedSpecification, config);

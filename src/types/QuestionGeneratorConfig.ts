@@ -1,3 +1,5 @@
+import { DifficultyLevel } from './DifficultyLevel';
+
 // Constants for commonly used values
 export const QURAN_CONSTANTS = {
     TOTAL_PAGES: 604,
@@ -12,14 +14,15 @@ export const QURAN_CONSTANTS = {
 // Default values for configuration
 export const DEFAULT_CONFIG = {
     currentIndex: -1,
-    choices: 5
+    choices: 5,
+    difficulty: DifficultyLevel.EASY
 } as const;
 
 export interface QuestionGeneratorConfig {
     currentIndex?: number;
     choices?: number;
+    difficulty?: DifficultyLevel;
     // Future parameters can be easily added here
-    // difficulty?: 'easy' | 'medium' | 'hard';
     // language?: 'ar' | 'en';
     // timeLimit?: number;
     // hints?: boolean;
@@ -29,6 +32,10 @@ export interface QuestionGeneratorConfig {
 export function getConfigWithDefaults(config: QuestionGeneratorConfig = {}): Required<QuestionGeneratorConfig> {
     return {
         currentIndex: config.currentIndex ?? DEFAULT_CONFIG.currentIndex,
-        choices: config.choices ?? DEFAULT_CONFIG.choices
+        choices: config.choices ?? DEFAULT_CONFIG.choices,
+        difficulty: config.difficulty ?? DEFAULT_CONFIG.difficulty
     };
-} 
+}
+
+// Re-export DifficultyLevel for convenience
+export { DifficultyLevel }; 
