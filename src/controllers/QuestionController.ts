@@ -6,10 +6,13 @@ import { ISpecification } from '../specifications/ISpecification';
 import { AllAyahsSpecification } from '../specifications/AllAyahsSpecification';
 import {Question} from "../models/Question";
 import {QuestionGeneratorConfig, DifficultyLevel, DEFAULT_CONFIG} from '../types/QuestionGeneratorConfig';
+import { logger } from '../utils/logger';
 
 export class QuestionController {
 
     public static generateQuestions(req: Request, res: Response): void {
+        logger.info('Generating multiple questions');
+        
         const questionType: string = (req.query.question_type as string) || 'random';
         const numQuestions: number = req.query.num_questions ? Number(req.query.num_questions) : 5;
         const sequence: boolean = req.query.sequence === 'true';
@@ -21,6 +24,8 @@ export class QuestionController {
         const juz: number = req.query.juz ? Number(req.query.juz) : -1;
         const hizb: number = req.query.hizb ? Number(req.query.hizb) : -1;
         const difficultyLevel: DifficultyLevel = (req.query.difficulty_level as DifficultyLevel) || DEFAULT_CONFIG.difficulty;
+
+        logger.info('Question generation params:', `type:${questionType}`, `count:${numQuestions}`, `difficulty:${difficultyLevel}`);
 
         const specifications: ISpecification<any>[] = [];
 
@@ -49,6 +54,7 @@ export class QuestionController {
         try {
             const questions: Question[] = [];
             for (let i = 0; i < numQuestions; i++) {
+                logger.debug('Generating question', `${i + 1}/${numQuestions}`);
                 const generator = QuestionGeneratorFactory.createGenerator(questionType);
                 
                 // Create configuration object
@@ -66,8 +72,10 @@ export class QuestionController {
                     currentIndex = -1;
                 }
             }
+            logger.info('Successfully generated questions', `count:${questions.length}`);
             res.json(questions);
         } catch (error) {
+            logger.error('Error generating questions:', error instanceof Error ? error.message : 'Unknown error');
             if (error instanceof Error) {
                 res.status(400).json({ error: error.message });
             } else {
@@ -77,6 +85,8 @@ export class QuestionController {
     }
 
     public static generateQuestion(req: Request, res: Response): void {
+        logger.info('Generating single question');
+        
         const questionType: string = (req.query.question_type as string) || QuestionType.random;
         const currentIndex: number = req.query.index ? Number(req.query.index) : -1;
         const startPage: number = req.query.start_page ? Number(req.query.start_page) : 1;
@@ -86,6 +96,8 @@ export class QuestionController {
         const juz: number = req.query.juz ? Number(req.query.juz) : -1;
         const hizb: number = req.query.hizb ? Number(req.query.hizb) : -1;
         const difficultyLevel: DifficultyLevel = (req.query.difficulty_level as DifficultyLevel) || DEFAULT_CONFIG.difficulty;
+
+        logger.info('Question generation params:', `type:${questionType}`, `difficulty:${difficultyLevel}`);
 
         const specifications: ISpecification<any>[] = [];
 
@@ -126,8 +138,10 @@ export class QuestionController {
             };
             
             const question = generator.generate(combinedSpecification, config);
+            logger.info('Successfully generated question');
             res.json(question);
         } catch (error) {
+            logger.error('Error generating question:', error instanceof Error ? error.message : 'Unknown error');
             if (error instanceof Error) {
                 res.status(400).json({ error: error.message });
             } else {
