@@ -3,6 +3,7 @@ import Joi from 'joi';
 import { QuestionType } from '../models/QuestionType';
 import { QURAN_CONSTANTS } from '../types/QuestionGeneratorConfig';
 import { DifficultyLevel } from '../types/DifficultyLevel';
+import { logger } from '../utils/logger';
 
 // Simple validation schemas
 const questionQuerySchema = Joi.object({
@@ -36,12 +37,26 @@ const singleQuestionQuerySchema = Joi.object({
 // Simple validation middleware factory
 const createValidationMiddleware = (schema: Joi.ObjectSchema) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const { error } = schema.validate(req.query);
+    const { error } = schema.validate(req.query, { 
+      abortEarly: false,  // Collect all errors instead of stopping at first
+      allowUnknown: true  // Allow unknown fields
+    });
     
     if (error) {
+      const validationErrors = error.details.map(detail => ({
+        field: detail.path.join('.'),
+        message: detail.message,
+        value: detail.context?.value
+      }));
+      
+      logger.error('Validation failed:', `path:${req.path}`, `errors:${validationErrors.length}`);
+      validationErrors.forEach(err => {
+        logger.error('Validation error:', `field:${err.field}`, `message:${err.message}`, `value:${err.value}`);
+      });
+      
       return res.status(400).json({
         error: 'Validation failed',
-        details: error.details.map(detail => detail.message)
+        details: validationErrors
       });
     }
     
