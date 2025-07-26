@@ -1,67 +1,66 @@
 # Project Documentation
 
-Welcome to the Quran Competition Service documentation. This directory contains all the guides, tutorials, and reference materials for the project.
+Welcome to the Quran Competition Service documentation. This directory contains all the guides, tutorials, and reference materials for the project in multiple languages.
 
 ## 📚 Documentation Structure
 
-### 🚀 Deployment & Operations
-- **[Heroku CLI Commands](./deployment/heroku-cli-commands.md)** - Complete guide for managing Heroku apps from Windows command line
-- **[Deployment Guide](./deployment/README.md)** - Overview of deployment processes and best practices
+### 🌍 Language Documentation
+- **[English Documentation](./en/README.md)** - Complete documentation in English
+- **[Arabic Documentation](./ar/README.md)** - التوثيق الكامل باللغة العربية
 
-### 🔧 Development (Coming Soon)
-- API Documentation
-- Development Setup Guide
-- Testing Guide
-- Code Style Guide
+## 📁 Folder Structure
 
-### 📖 User Guides (Coming Soon)
-- User Manual
-- FAQ
-- Troubleshooting Guide
+```
+docs/
+├── README.md                    # This file - main documentation index
+├── en/                          # English documentation
+│   ├── README.md               # English documentation index
+│   ├── engines.md              # Question and Personalization engines
+│   ├── strategies.md           # Learning strategies and algorithms
+│   ├── heroku.md               # Heroku deployment guide
+│   └── ...                     # Other English docs
+└── ar/                          # Arabic documentation
+    ├── README.md               # فهرس التوثيق العربي
+    ├── engines.md              # محركات الأسئلة والتخصيص
+    ├── strategies.md           # استراتيجيات التعلم والخوارزميات
+    ├── heroku.md               # دليل نشر Heroku
+    └── ...                     # باقي التوثيق العربي
+```
+
+## 🎯 Benefits of This Structure
+
+- **Clear Language Separation**: Each language has its own folder
+- **Consistent File Names**: Same documentation files exist in both languages
+- **Easy Navigation**: One README per language folder
+- **Scalable**: Easy to add new languages or documentation files
+- **Maintainable**: Clear organization makes updates easier
 
 ## Quick Links
 
-- [Heroku CLI Commands](./deployment/heroku-cli-commands.md) - Essential commands for managing your Heroku apps
+- [English Documentation](./en/README.md) - Start here for English docs
+- [Arabic Documentation](./ar/README.md) - ابدأ هنا للتوثيق العربي
 - [Project Root README](../README.md) - Main project overview
 
 ## Contributing to Documentation
 
 When adding new documentation:
 
-1. **Choose the right category** - Place files in appropriate subdirectories
-2. **Use descriptive names** - All lowercase with hyphens (e.g., `api-reference.md`)
-3. **Update this README** - Add links to new documentation
-4. **Follow the naming convention** - Use clear, descriptive filenames
+1. **Create files in both languages** - Add to both `en/` and `ar/` folders
+2. **Use consistent naming** - Same file names across languages
+3. **Update both README files** - Update `en/README.md` and `ar/README.md`
+4. **Follow naming conventions** - Use descriptive, lowercase names with hyphens
 
 ### Naming Conventions
 
 - **Files**: `lowercase-with-hyphens.md`
-- **Directories**: `lowercase-with-hyphens/`
+- **Folders**: `en/`, `ar/` (language codes)
 - **Descriptive**: Use names that clearly indicate the content
-
-### Example Structure
-
-```
-docs/
-├── README.md                    # This file - main documentation index
-├── deployment/                  # Deployment and operations guides
-│   ├── README.md               # Deployment overview
-│   ├── heroku-cli-commands.md  # Heroku CLI reference
-│   └── environment-setup.md    # Environment configuration
-├── development/                 # Development guides
-│   ├── README.md               # Development overview
-│   ├── api-reference.md        # API documentation
-│   └── testing-guide.md        # Testing procedures
-└── user-guides/                # End-user documentation
-    ├── README.md               # User guides overview
-    ├── getting-started.md      # Quick start guide
-    └── troubleshooting.md      # Common issues and solutions
-```
 
 ## Need Help?
 
-If you can't find what you're looking for or need help with documentation:
+If you can't find what you're looking for:
 
-1. Check the [Project Root README](../README.md) for basic project information
-2. Look through the appropriate category above
-3. Create an issue if documentation is missing or unclear 
+1. Check the appropriate language folder (`en/` or `ar/`)
+2. Look at the README.md file in that language folder
+3. Check the [Project Root README](../README.md) for basic project information
+4. Create an issue if documentation is missing or unclear 
