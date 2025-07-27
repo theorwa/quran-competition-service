@@ -9,6 +9,7 @@ Welcome to the English documentation for the Quran Competition Service. This dir
 - **[Strategies](./strategies.md)** - Learning strategies and algorithms
 - **[Question Generation](./question-generation.md)** - How questions are generated and customized
 - **[Application Flow](./application-flow.md)** - Main application flow and user experience
+- **[Audio API](./audio-api.md)** - Quran Audio API integration and features
 
 ### 🚀 Deployment & Operations
 - **[Heroku Deployment](./heroku.md)** - Complete guide for managing Heroku apps from Windows command line
@@ -29,6 +30,7 @@ Welcome to the English documentation for the Quran Competition Service. This dir
 
 - [Application Flow](./application-flow.md) - Main user experience and system flow
 - [Engines & Strategies](./engines.md) - Core system concepts
+- [Audio API](./audio-api.md) - Quran Audio API integration
 - [Heroku Deployment](./heroku.md) - Essential commands for managing your Heroku apps
 - [Main Documentation Index](../README.md) - Back to main docs index
 - [Project Root README](../../README.md) - Main project overview
