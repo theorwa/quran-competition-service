@@ -8,7 +8,7 @@ Welcome to the English documentation for the Quran Competition Service. This dir
 - **[Engines](./engines.md)** - Question Engine and Personalization Engine details
 - **[Strategies](./strategies.md)** - Learning strategies and algorithms
 - **[Question Generation](./question-generation.md)** - How questions are generated and customized
-- **[Application Flow](./application-flow.md)** - Main application flow and user experience
+- **[Onboarding Flow](./onboarding-flow.md)** - User onboarding process and profile creation
 - **[Audio API](./audio-api.md)** - Quran Audio API integration and features
 
 ### 🚀 Deployment & Operations
@@ -28,7 +28,7 @@ Welcome to the English documentation for the Quran Competition Service. This dir
 
 ## Quick Links
 
-- [Application Flow](./application-flow.md) - Main user experience and system flow
+- [Onboarding Flow](./onboarding-flow.md) - User onboarding process and profile creation
 - [Engines & Strategies](./engines.md) - Core system concepts
 - [Audio API](./audio-api.md) - Quran Audio API integration
 - [Heroku Deployment](./heroku.md) - Essential commands for managing your Heroku apps
