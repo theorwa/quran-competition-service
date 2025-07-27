@@ -8,6 +8,7 @@ Welcome to the English documentation for the Quran Competition Service. This dir
 - **[Engines](./engines.md)** - Question Engine and Personalization Engine details
 - **[Strategies](./strategies.md)** - Learning strategies and algorithms
 - **[Question Generation](./question-generation.md)** - How questions are generated and customized
+- **[Application Flow](./application-flow.md)** - Main application flow and user experience
 
 ### 🚀 Deployment & Operations
 - **[Heroku Deployment](./heroku.md)** - Complete guide for managing Heroku apps from Windows command line
@@ -26,6 +27,7 @@ Welcome to the English documentation for the Quran Competition Service. This dir
 
 ## Quick Links
 
+- [Application Flow](./application-flow.md) - Main user experience and system flow
 - [Engines & Strategies](./engines.md) - Core system concepts
 - [Heroku Deployment](./heroku.md) - Essential commands for managing your Heroku apps
 - [Main Documentation Index](../README.md) - Back to main docs index
@@ -51,6 +53,7 @@ When adding new documentation:
 ```
 en/
 ├── README.md                    # This file - English documentation index
+├── application-flow.md          # Main application flow and user experience
 ├── engines.md                   # Core engines and strategies
 ├── question-generation.md       # Question generation process
 ├── heroku.md                    # Heroku deployment guide
